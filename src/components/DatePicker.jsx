@@ -9,19 +9,18 @@ import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 
-
- 
-export default function Example() {
+export default function DatePicker(props) {
   const [date, setDate] = React.useState();
- 
+
   return (
-    <div className="p-24">
+    <div className="p-20">
       <Popover placement="bottom">
         <PopoverHandler>
           <Input
-            label="Check In"
+            label={props.label}
             onChange={() => null}
             value={date ? format(date, "PPP") : ""}
+    
           />
         </PopoverHandler>
         <PopoverContent>
