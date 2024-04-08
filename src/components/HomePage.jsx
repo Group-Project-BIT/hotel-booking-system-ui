@@ -5,7 +5,8 @@ import { StickyNavbar } from "./Navbar";
 import Example from "./DatePicker";
 import { Button } from "@material-tailwind/react";
 import DatePicker from "./DatePicker";
-import { CarouselDefault } from "./Carousel";
+import { CarouselWithContent } from "./Carousel";
+
 
 
 const HomePage = () => {
@@ -64,7 +65,7 @@ const HomePage = () => {
       </div>
       </div>
 
-      <div><CarouselDefault/></div>
+      <div><CarouselWithContent/></div>
      
     </div>
   );
