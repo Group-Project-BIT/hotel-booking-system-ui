@@ -4,8 +4,10 @@ import { SuiteImageCarousel } from "./SuiteImageCarousel";
 
 const SitePanel = () => {
   return (
+    <div  >
     <div>
       <SuiteImageCarousel />
+    </div>
     </div>
   );
 };
