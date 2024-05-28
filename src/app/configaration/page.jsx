@@ -1,5 +1,5 @@
 "use client"
-import { ReservationContainer } from '@/components/reservation/ReservationContainer'
+import { ReservationContainer } from '@/components/configaration/ReservationContainer'
 import React from 'react'
 
 const ConfigarationPage = () => {
