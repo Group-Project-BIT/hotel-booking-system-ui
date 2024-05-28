@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Input,
@@ -7,8 +7,31 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const SignUpForm = () => {
+  const [isClickCheckBox, setIsClickCheckBox] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
+      password: Yup.string().required("Required"),
+      // .matches(
+      //   // TODO password pattern too complex. need be changed in future.
+      //   /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+      //   "Password must contain at least 8 characters, one uppercase, one number and one special case character"
+      // ),
+    }),
+    onSubmit: async (values) => {}})
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
@@ -24,7 +47,7 @@ const SignUpForm = () => {
           </Typography>
           <Input
             size="lg"
-            placeholder="name@mail.com"
+            placeholder="Enter name"
             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
             labelProps={{
               className: "before:content-none after:content-none",
@@ -77,7 +100,7 @@ const SignUpForm = () => {
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">
           Already have an account?{" "}
-          <a href="#" className="font-medium text-gray-900">
+          <a href="/auth/sign-in" className="font-medium text-gray-900">
             Sign In
           </a>
         </Typography>
