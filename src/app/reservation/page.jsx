@@ -1,11 +1,11 @@
 "use client"
-import { StepperWithContent } from '@/components/configaration/StepperWithContent'
+import { ReservationContainer } from '@/components/configaration/ReservationContainer'
 import React from 'react'
 
 const ConfigarationPage = () => {
   return (
     <div className='flex flex col justify-center items-center h-screen'>
-        <StepperWithContent/>
+        <ReservationContainer/>
     </div>
   )
 }
