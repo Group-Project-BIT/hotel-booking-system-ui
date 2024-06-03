@@ -5,22 +5,22 @@ import ReservationContainer from '@/components/reservations/ReservationContainer
 import RoomTypeCardsContainer from '@/components/reservations/RoomTypeCardsContainer';
 
 const ReservationsPage = () => {
-  const [selectedRoomType, setSelectedRoomType] = useState(null);
+    const [selectedRoomType, setSelectedRoomType] = useState(null);
 
-  return (
-    <div>
-      <div>
-        <StickyNavbar />
-      </div>
-      {!selectedRoomType ? (
-        <RoomTypeCardsContainer onSelectRoomType={setSelectedRoomType} />
-      ) : (
-        <div className='flex flex-auto justify-center'>
-          <ReservationContainer selectedRoomType={selectedRoomType} />
+    return (
+        <div>
+            <div>
+                <StickyNavbar />
+            </div>
+            {!selectedRoomType ? (
+                <RoomTypeCardsContainer onSelectRoomType={setSelectedRoomType} />
+            ) : (
+                <div className='flex flex-auto justify-center'>
+                    <ReservationContainer selectedRoomType={selectedRoomType} />
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default ReservationsPage;
