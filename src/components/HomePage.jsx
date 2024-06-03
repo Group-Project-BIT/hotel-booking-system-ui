@@ -79,21 +79,25 @@ const HomePage = () => {
         title="Deluxe Room" 
         description="A spacious room with a great view and modern amenities." 
         imageSrc="Deluxe Room .jpg" 
+        isAvailable={true}
       />
       <BookingCard 
         title="Standard Room" 
         description="Comfortable room with essential amenities for a pleasant stay." 
         imageSrc="Double room.jpg" 
+        isAvailable={false}
       />
        <BookingCard 
         title="Executive Room" 
         description="Comfortable room with essential amenities for a pleasant stay." 
-        imageSrc="Luxury room.jpg"  
+        imageSrc="Luxury room.jpg"
+        isAvailable={true}  
       />
       <BookingCard 
         title="Double Room" 
         description="Comfortable room with essential amenities for a pleasant stay." 
-        imageSrc="Premium room.jpg"  
+        imageSrc="Premium room.jpg" 
+        isAvailable={false} 
       />
         </div>
       )}
