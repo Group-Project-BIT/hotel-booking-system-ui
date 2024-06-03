@@ -8,7 +8,7 @@ export const ReservationContainer = () => {
   const [isFirstStep, setIsFirstStep] = useState(false);
   return (
     <div className="flex flex-col justify-center items-center w-full"
-    style={{paddingLeft:"15%", paddingRight:"15%"}}>
+    style={{paddingLeft:"20%", paddingRight:"20%"}}>
       <StepperWithContent
         activeStep={activeStep}
         setActiveStep={setActiveStep}
@@ -18,12 +18,13 @@ export const ReservationContainer = () => {
         setIsFirstStep={setIsFirstStep}
       />
       <ReservationContent 
-      activeStep={activeStep}
-      setActiveStep={setActiveStep}
-      isLastStep={isLastStep}
-      setIsLastStep={setIsLastStep}
-      isFirstStep={isFirstStep}
-      setIsFirstStep={setIsFirstStep}/>
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        isLastStep={isLastStep}
+        setIsLastStep={setIsLastStep}
+        isFirstStep={isFirstStep}
+        setIsFirstStep={setIsFirstStep}
+      />
     </div>
   );
 };
