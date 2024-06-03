@@ -77,27 +77,31 @@ const HomePage = () => {
         <div className="mt-10 mb-10 flex justify-center space-x-4">
        <BookingCard 
         title="Deluxe Room" 
-        description="A spacious room with a great view and modern amenities." 
+        description="This deluxe room offers extra space, upscale furnishings, a larger bed, premium amenities, and enhanced comfort compared to standard rooms." 
         imageSrc="Deluxe Room .jpg" 
         isAvailable={true}
+        price={120}
       />
       <BookingCard 
         title="Standard Room" 
-        description="Comfortable room with essential amenities for a pleasant stay." 
+        description="This standard room is a basic hotel accommodation with essential amenities, including a bed, bathroom, desk, and basic furnishings, designed for a comfortable stay." 
         imageSrc="Double room.jpg" 
         isAvailable={false}
+        price={100}
       />
        <BookingCard 
         title="Executive Room" 
-        description="Comfortable room with essential amenities for a pleasant stay." 
+        description="An executive room offers additional space, upgraded furnishings, a larger work area, and enhanced amenities, often including access to exclusive hotel services or lounges, ideal for business travelers." 
         imageSrc="Luxury room.jpg"
-        isAvailable={true}  
+        isAvailable={true}
+        price={110}  
       />
       <BookingCard 
         title="Double Room" 
-        description="Comfortable room with essential amenities for a pleasant stay." 
+        description="This double room features a bed suitable for two people, or sometimes two single beds, and includes standard amenities like a private bathroom, basic furnishings, and essential services for a comfortable stay." 
         imageSrc="Premium room.jpg" 
-        isAvailable={false} 
+        isAvailable={false}
+        price={115} 
       />
         </div>
       )}

@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 
-export function BookingCard({ title, description, imageSrc, isAvailable }) {
+export function BookingCard({ title, description, imageSrc, isAvailable, price }) {
   return (
     <Card className="w-full max-w-[26rem] shadow-lg">
       <CardHeader floated={false} color="blue-gray">
@@ -52,7 +52,7 @@ export function BookingCard({ title, description, imageSrc, isAvailable }) {
           {description}
         </Typography>
         <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
-          <Tooltip content="$129 per night">
+          <Tooltip content={`$${price} per night`}>
             <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
