@@ -7,7 +7,7 @@ export function CarouselWithContent() {
       <Carousel className="rounded-xl">
         <div className="relative h-full w-full">
           <img
-            src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+            src="room-01.jpg"
             alt="image 1"
             className="h-full w-full object-cover"
           />
@@ -18,17 +18,15 @@ export function CarouselWithContent() {
                 color="white"
                 className="mb-4 text-3xl md:text-4xl lg:text-5xl"
               >
-                The Beauty of Nature
+                Discover Your Dream Hotel.
               </Typography>
               <Typography
                 variant="lead"
                 color="white"
                 className="mb-12 opacity-80"
               >
-                It is not so much for its beauty that the forest makes a claim
-                upon men's hearts, as for that subtle something, that quality
-                of air that emanation from old trees, that so wonderfully changes
-                and renews a weary spirit.
+                Immerse yourself in a world beyond the everyday. Find your perfect escape from the routine, 
+                whether it's a bustling city stay, a serene beach getaway, or an adventurous mountain escape.
               </Typography>
               <div className="flex justify-center gap-2">
                 <Button size="lg" color="white">
@@ -43,7 +41,7 @@ export function CarouselWithContent() {
         </div>
         <div className="relative h-full w-full">
           <img
-            src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+            src="room-02.jpg"
             alt="image 2"
             className="h-full w-full object-cover"
           />
@@ -54,17 +52,17 @@ export function CarouselWithContent() {
                 color="white"
                 className="mb-4 text-3xl md:text-4xl lg:text-5xl"
               >
-                The Beauty of Nature
+                Your Perfect Hotel Awaits.
               </Typography>
               <Typography
                 variant="lead"
                 color="white"
                 className="mb-12 opacity-80"
               >
-                It is not so much for its beauty that the forest makes a claim
-                upon men's hearts, as for that subtle something, that quality
-                of air that emanation from old trees, that so wonderfully changes
-                and renews a weary spirit.
+                Unwind and rediscover yourself in a haven of comfort and convenience. 
+                Our hotels offer the perfect escape to relax and rejuvenate. 
+                From luxurious rooms to exceptional amenities, we cater to your every need. Find your perfect hideaway. 
+                
               </Typography>
               <div className="flex gap-2">
                 <Button size="lg" color="white">
@@ -79,7 +77,7 @@ export function CarouselWithContent() {
         </div>
         <div className="relative h-full w-full">
           <img
-            src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
+            src="room-03.jpg"
             alt="image 3"
             className="h-full w-full object-cover"
           />
@@ -90,17 +88,15 @@ export function CarouselWithContent() {
                 color="white"
                 className="mb-4 text-3xl md:text-4xl lg:text-5xl"
               >
-                The Beauty of Nature
+                Book Your Hotel Adventure.
               </Typography>
               <Typography
                 variant="lead"
                 color="white"
                 className="mb-12 opacity-80"
               >
-                It is not so much for its beauty that the forest makes a claim
-                upon men's hearts, as for that subtle something, that quality
-                of air that emanation from old trees, that so wonderfully changes
-                and renews a weary spirit.
+                The world is your oyster. Let us help you discover it. Find your ideal base camp for exploring new destinations. 
+                Our hotels are strategically located to put you at the heart of the action.  
               </Typography>
               <div className="flex gap-2">
                 <Button size="lg" color="white">
@@ -119,26 +115,19 @@ export function CarouselWithContent() {
       <div className="w-1/2 px-4 py-8 flex flex-col items-center justify-center">
         <div className=" p-6 rounded-xl ">
           <h2 className="text-2xl font-semibold mb-4">
-            Welcome to Crystal Sands
+            Welcome to Zion Hotels
           </h2>
           <p className="text-sm leading-relaxed">
-            Crystal Sands is an All-Suite five-star hotel on the Southern Coast
-            of Sri Lanka, consisting of 24 suites that offer guests a distinctive
-            blend of a villa experience coupled with boutique hotel luxuries. This
-            unique experience makes Crystal Sands the ideal holiday home for
-            families and friends traveling together.
+          Zion is more than just a hotel booking system; we're your trusted travel companion. We believe that every journey is an opportunity to explore, 
+          unwind, and create lasting memories. That's why we've curated a diverse selection of hotels across the globe, catering to every traveler's desire.
           </p>
           <p className="text-sm leading-relaxed mt-4">
-            The accommodation at Crystal Sands presents a choice of 15 two-bedroomed
-            suites, 8 three-bedroomed suites, and 1 palatial four-bedroomed
-            presidential suite that takes up the entire 9th floor. Every one of the
-            suites at Crystal Sands comes with its very own private plunge pool, indoor
-            & outdoor living space, and unmatched views of the ocean.
+          We're constantly innovating to make your travel experience even better. Our user-friendly platform is constantly evolving, 
+          offering new features like personalized recommendations, exclusive deals, and mobile booking options for ultimate convenience. 
+          We're committed to staying at the forefront of travel technology to ensure a smooth and enjoyable journey from start to finish.
           </p>
           <p className="text-sm leading-relaxed mt-4">
-            At Crystal Sands, our guests will also have direct beach access, a rooftop
-            infinity pool, restaurant & bar, a lawn with sunbeds, in-suite dining, access
-            to our fitness center, Balinese Ayu spa, and concierge service.
+            
           </p>
         </div>
       </div>
