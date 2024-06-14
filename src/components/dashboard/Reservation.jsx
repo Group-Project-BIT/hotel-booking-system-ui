@@ -1,143 +1,286 @@
-import { Card, Typography, Button, Input } from "@material-tailwind/react";
+import {
+  MagnifyingGlassIcon,
+  ChevronUpDownIcon,
+} from "@heroicons/react/24/outline";
+import {
+  Card,
+  CardHeader,
+  Input,
+  Typography,
+  Button,
+  CardBody,
+  Chip,
+  CardFooter,
+  Tabs,
+  TabsHeader,
+  Tab,
+  Popover,
+  PopoverHandler,
+  PopoverContent
+} from "@material-tailwind/react";
 import { useState } from "react";
 
-const TABLE_HEAD = ["Room No", "Room Type", "Date", "Actions"];
+const TABS = [
+  {
+    label: "All",
+    value: "all",
+  },
+  {
+    label: "Confirmed",
+    value: "confirmed",
+  },
+  {
+    label: "Canceled",
+    value: "canceled",
+  },
+];
+const TABLE_HEAD = [
+  "Guest",
+  "Room Type",
+  "Status",
+  "Reservation Type",
+  "Check-In",
+  "Check-Out",
+];
 
-const initialRows = [
+const INITIAL_TABLE_ROWS = [
   {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
+    nic_number: "200030200300",
+    f_name: "John",
+    type_name: "Deluxe",
+    typename: "Full Board",
+    check_in: "29.06.2024",
+    check_out: "30.06.2024",
+    status: true,
   },
   {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
+    nic_number: "200050601001",
+    f_name: "Rathnayake",
+    type_name: "Deluxe",
+    typename: "Full Board",
+    check_in: "24.06.2024",
+    check_out: "26.06.2024",
+    status: false,
   },
   {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
+    nic_number: "200050601001",
+    f_name: "Rayan",
+    type_name: "Deluxe",
+    typename: "Full Board",
+    check_in: "24.06.2024",
+    check_out: "26.06.2024",
+    status: true,
   },
 ];
 
-export function TableWithStripedRows() {
-  const [rows, setRows] = useState(initialRows);
-  const [isEditing, setIsEditing] = useState(null);
-  const [editData, setEditData] = useState({ name: "", job: "", date: "" });
+export function ReservationTable() {
+  const [tableRows, setTableRows] = useState(INITIAL_TABLE_ROWS);
 
-  const handleDelete = (index) => {
-    setRows(rows.filter((_, i) => i !== index));
-  };
-
-  const handleEdit = (index) => {
-    setIsEditing(index);
-    setEditData(rows[index]);
-  };
-
-  const handleSave = (index) => {
-    const newRows = [...rows];
-    newRows[index] = editData;
-    setRows(newRows);
-    setIsEditing(null);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value });
+  const handleCancel = (nic_number) => {
+    setTableRows((prevRows) =>
+      prevRows.map((row) =>
+        row.nic_number === nic_number ? { ...row, status: false } : row
+      )
+    );
   };
 
   return (
-    <Card className="h-full w-full overflow-scroll">
-      <table className="w-full min-w-max table-auto text-left">
-        <thead>
-          <tr>
-            {TABLE_HEAD.map((head) => (
-              <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
+    <Card className="h-full w-full">
+      <CardHeader floated={false} shadow={false} className="rounded-none">
+        <div className="mb-8 flex items-center justify-between gap-8">
+          <div>
+            <Typography variant="h5" color="blue-gray">
+              Room Reservations
+            </Typography>
+            <Typography color="gray" className="mt-1 font-normal">
+              See information about all room reservations
+            </Typography>
+          </div>
+          <div className="flex shrink-0 flex-col gap-2 sm:flex-row"></div>
+        </div>
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <Tabs value="all" className="w-full md:w-max">
+            <TabsHeader>
+              {TABS.map(({ label, value }) => (
+                <Tab key={value} value={value}>
+                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                </Tab>
+              ))}
+            </TabsHeader>
+          </Tabs>
+          <div className="w-full md:w-72">
+            <Input
+              label="Search"
+              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+            />
+          </div>
+        </div>
+      </CardHeader>
+      <CardBody className="overflow-scroll px-0">
+        <table className="mt-4 w-full min-w-max table-auto text-left">
+          <thead>
+            <tr>
+              {TABLE_HEAD.map((head, index) => (
+                <th
+                  key={head}
+                  className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
                 >
-                  {head}
-                </Typography>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(({ name, job, date }, index) => (
-            <tr key={name} className="even:bg-blue-gray-50/50">
-              <td className="p-4">
-                {isEditing === index ? (
-                  <Input
-                    type="text"
-                    name="name"
-                    value={editData.name}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <Typography variant="small" color="blue-gray" className="font-normal">
-                    {name}
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+                  >
+                    {head}{" "}
+                    {index !== TABLE_HEAD.length - 1 && (
+                      <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
+                    )}
                   </Typography>
-                )}
-              </td>
-              <td className="p-4">
-                {isEditing === index ? (
-                  <Input
-                    type="text"
-                    name="job"
-                    value={editData.job}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <Typography variant="small" color="blue-gray" className="font-normal">
-                    {job}
-                  </Typography>
-                )}
-              </td>
-              <td className="p-4">
-                {isEditing === index ? (
-                  <Input
-                    type="text"
-                    name="date"
-                    value={editData.date}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <Typography variant="small" color="blue-gray" className="font-normal">
-                    {date}
-                  </Typography>
-                )}
-              </td>
-              <td className="p-4 flex gap-2">
-                {isEditing === index ? (
-                  <Button onClick={() => handleSave(index)} size="sm">
-                    Save
-                  </Button>
-                ) : (
-                  <Button onClick={() => handleEdit(index)} size="sm">
-                    Edit
-                  </Button>
-                )}
-                <Button onClick={() => handleDelete(index)} size="sm" color="red">
-                  Delete
-                </Button>
-              </td>
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {tableRows.map(
+              (
+                { f_name, nic_number, type_name, typename, check_in, check_out, status },
+                index
+              ) => {
+                const isLast = index === tableRows.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
+
+                return (
+                  <tr key={nic_number}>
+                    <td className={classes}>
+                      <div className="flex items-center gap-3">
+                        <div className="flex flex-col">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {f_name}
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal opacity-70"
+                          >
+                            {nic_number}
+                          </Typography>
+                        </div>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {type_name}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="w-max">
+                        <Chip
+                          variant="ghost"
+                          size="sm"
+                          value={status ? "confirmed" : "canceled"}
+                          color={status ? "green" : "blue-gray"}
+                        />
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {typename}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {check_in}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {check_out}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Popover placement="left">
+                        <PopoverHandler>
+                          <Button disabled={!status} >Cancel</Button>
+                        </PopoverHandler>
+                        <PopoverContent className="w-96">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                            />
+                          </svg>
+                          <Typography variant="h6" color="blue-gray" className="mb-6">
+                            Reservation Cancellation
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="mb-1 font-bold"
+                          >
+                            Are you sure to cancel this reservation?
+                          </Typography>
+                          <div className="flex gap-2">
+                            <Button onClick={() => handleCancel(nic_number)} variant="gradient" className="flex-shrink-0">
+                              Yes
+                            </Button>
+                            <Button variant="gradient" className="flex-shrink-0">
+                              No
+                            </Button>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </td>
+                  </tr>
+                );
+              }
+            )}
+          </tbody>
+        </table>
+      </CardBody>
+      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+        <Typography variant="small" color="blue-gray" className="font-normal">
+          Page 1 of 10
+        </Typography>
+        <div className="flex gap-2">
+          <Button variant="outlined" size="sm">
+            Previous
+          </Button>
+          <Button variant="outlined" size="sm">
+            Next
+          </Button>
+        </div>
+      </CardFooter>
     </Card>
   );
 }

@@ -1,79 +1,55 @@
 import React, { useState } from 'react';
 import { Card, Typography, Button, Input } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["First Name", "Last Name", "Email", "Phone", "Address"];
+const TABLE_HEAD = ["First Name", "Last Name", "Email", "Phone", "NIC Number", "Passport"];
 
 const INITIAL_TABLE_ROWS = [
   {
-    firstName: "John",
-    lastName: "Michael",
+    f_name: "John",
+    l_name: "Michael",
     email: "john.michael@example.com",
     phone: "123-456-7890",
-    address: "123 Main St, Springfield",
+    nic_number: "200030200300",
+    passport: "N/A"
   },
   {
-    firstName: "Alexa",
-    lastName: "Liras",
-    email: "alexa.liras@example.com",
-    phone: "987-654-3210",
-    address: "456 Elm St, Springfield",
+    f_name: "John",
+    l_name: "Michael",
+    email: "john.michael@example.com",
+    phone: "123-456-7890",
+    nic_number: "200030200300",
+    passport: "N/A"
   },
   {
-    firstName: "Laurent",
-    lastName: "Perrier",
-    email: "laurent.perrier@example.com",
-    phone: "555-123-4567",
-    address: "789 Oak St, Springfield",
+    f_name: "John",
+    l_name: "Michael",
+    email: "john.michael@example.com",
+    phone: "123-456-7890",
+    nic_number: "200030200300",
+    passport: "N/A"
   },
   {
-    firstName: "Michael",
-    lastName: "Levi",
-    email: "michael.levi@example.com",
-    phone: "444-555-6666",
-    address: "101 Pine St, Springfield",
+    f_name: "John",
+    l_name: "Michael",
+    email: "john.michael@example.com",
+    phone: "123-456-7890",
+    nic_number: "200030200300",
+    passport: "N/A"
   },
-  {
-    firstName: "Richard",
-    lastName: "Gran",
-    email: "richard.gran@example.com",
-    phone: "333-444-5555",
-    address: "202 Birch St, Springfield",
-  },
+  
 ];
 
 export function TableWithStripedGuest() {
   const [rows, setRows] = useState(INITIAL_TABLE_ROWS);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editFormData, setEditFormData] = useState({
-    firstName: '',
-    lastName: '',
+    f_name: '',
+    l_name: '',
     email: '',
     phone: '',
-    address: ''
+    nic_number: '',
+    passport: ''
   });
-
-  const handleEditClick = (index) => {
-    setEditingIndex(index);
-    setEditFormData(rows[index]);
-  };
-
-  const handleDeleteClick = (index) => {
-    const newRows = rows.filter((_, i) => i !== index);
-    setRows(newRows);
-  };
-
-  const handleFormChange = (event) => {
-    const { name, value } = event.target;
-    setEditFormData({ ...editFormData, [name]: value });
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const newRows = [...rows];
-    newRows[editingIndex] = editFormData;
-    setRows(newRows);
-    setEditingIndex(null);
-  };
 
   return (
     <Card className="h-full w-full overflow-scroll">
@@ -95,7 +71,7 @@ export function TableWithStripedGuest() {
           </tr>
         </thead>
         <tbody>
-          {rows.map(({ firstName, lastName, email, phone, address }, index) => (
+          {rows.map(({ f_name, l_name, email, phone, nic_number, passport }, index) => (
             <tr key={index} className="even:bg-blue-gray-50/50">
               {editingIndex === index ? (
                 <>
@@ -103,7 +79,7 @@ export function TableWithStripedGuest() {
                     <Input
                       type="text"
                       name="firstName"
-                      value={editFormData.firstName}
+                      value={editFormData.f_name}
                       onChange={handleFormChange}
                       className="font-normal"
                     />
@@ -112,7 +88,7 @@ export function TableWithStripedGuest() {
                     <Input
                       type="text"
                       name="lastName"
-                      value={editFormData.lastName}
+                      value={editFormData.l_name}
                       onChange={handleFormChange}
                       className="font-normal"
                     />
@@ -139,7 +115,16 @@ export function TableWithStripedGuest() {
                     <Input
                       type="text"
                       name="address"
-                      value={editFormData.address}
+                      value={editFormData.nic_number}
+                      onChange={handleFormChange}
+                      className="font-normal"
+                    />
+                  </td>
+                  <td className="p-4">
+                    <Input
+                      type="text"
+                      name="address"
+                      value={editFormData.passport}
                       onChange={handleFormChange}
                       className="font-normal"
                     />
@@ -153,12 +138,12 @@ export function TableWithStripedGuest() {
                 <>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {firstName}
+                      {f_name}
                     </Typography>
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {lastName}
+                      {l_name}
                     </Typography>
                   </td>
                   <td className="p-2">
@@ -173,7 +158,12 @@ export function TableWithStripedGuest() {
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {address}
+                      {nic_number}
+                    </Typography>
+                  </td>
+                  <td className="p-4">
+                    <Typography variant="small" color="blue-gray" className="font-normal">
+                      {passport}
                     </Typography>
                   </td>
                   <td className="p-4 flex gap-2">
