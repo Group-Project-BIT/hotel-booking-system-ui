@@ -5,12 +5,10 @@ import {
   PopoverHandler,
   PopoverContent,
 } from "@material-tailwind/react";
-import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 export default function DatePicker(props) {
-  const [date, setDate] = React.useState();
 
   return (
     <div className="p-20">
@@ -18,16 +16,16 @@ export default function DatePicker(props) {
         <PopoverHandler>
           <Input
             label={props.label}
-            onChange={() => null}
-            value={date ? format(date, "PPP") : ""}
+            onChange={props.setValue}
+            value={props.value}
     
           />
         </PopoverHandler>
         <PopoverContent>
           <DayPicker
             mode="single"
-            selected={date}
-            onSelect={setDate}
+            selected={props.value}
+            onSelect={props.setValue}
             showOutsideDays
             className="border-0"
             classNames={{
