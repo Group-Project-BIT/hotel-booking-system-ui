@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button, Select, Option } from "@material-tailwind/react";
-import DatePicker from "./DatePicker";
+import { Button } from "@material-tailwind/react";
 import { StickyNavbar } from "./Navbar";
 import { CarouselWithContent } from "./Carousell";
 import { BookingCard } from "./Card";
@@ -46,26 +45,8 @@ const Testimonials = () => {
   );
 };
 
-
-
 const HomePage = () => {
-  const [checkIn, setCheckIn] = useState("checkIn");
-  const [checkOut, setCheckOut] = useState("checkOut");
-  const [roomType, setRoomType] = useState("roomType");
-  const [isCardVisible, setIsCardVisible] = useState(false);
-
-  const handleSearchClick = () => {
-    const searchData = {
-      checkIn,
-      checkOut,
-      roomType,
-    };
-
-    const endpoint = `https://yourapi.com/search?checkIn=${searchData.checkIn}&checkOut=${searchData.checkOut}&roomType=${searchData.roomType}`;
-    
-    console.log(endpoint);
-    setIsCardVisible(true);
-  };
+  const [isCardVisible, setIsCardVisible] = useState(true);
 
   return (
     <div>
@@ -87,90 +68,54 @@ const HomePage = () => {
         </div>
       </header>
 
-      <div className="bg-gray-50 border border-gray-300 rounded-lg p-6 mt-10 mx-6 lg:mx-24 relative" style={{ backgroundImage: "url('booking-bg.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-          <div className="w-full md:w-1/3 relative mb-4 md:mb-0">
-            <label
-              className="text-m text-gray-500 absolute top-0 left-0 ml-20 mt-10"
-              htmlFor="check-in"
-            >
-              Check In
-            </label>
-            <DatePicker
-              id="check-in"
-              label="Check In"
-              selected={checkIn}
-              onChange={(date) => setCheckIn(date)}
-            />
-          </div>
-          <div className="w-full md:w-1/3 relative mb-4 md:mb-0">
-            <label
-              className="text-m text-gray-500 absolute top-0 left-0 ml-20 mt-10"
-              htmlFor="check-out"
-            >
-              Check Out
-            </label>
-            <DatePicker
-              id="check-out"
-              label="Check Out"
-              selected={checkOut}
-              onChange={(date) => setCheckOut(date)}
-            />
-          </div>
-          <div className="w-full md:w-1/3 relative">
-            <Select
-              id="room-type"
-              label="Select Room Type"
-              value={roomType}
-              onChange={(selectedOption) => setRoomType(selectedOption.value)}
-            >
-              <Option value="Luxury">Deluxe Room</Option>
-              <Option value="Standard">Executive Room</Option>
-              <Option value="Premium">Standard Room</Option>
-            </Select>
-          </div>
-        </div>
-        <div className="flex justify-center">
-          <Button color="blue" onClick={handleSearchClick}>
-            Search
-          </Button>
-        </div>
-      </div>
-
       {isCardVisible && (
-        <div className="mt-10 mb-10 flex justify-center space-x-4">
-          <BookingCard
-            title="Deluxe Room"
-            description="This deluxe room offers extra space, upscale furnishings, a larger bed, premium amenities, and enhanced comfort compared to standard rooms."
-            imageSrc="Deluxe Room .jpg"
-            isAvailable={true}
-            price={120}
-            className="w-80 h-96"
-          />
-          <BookingCard
-            title="Standard Room"
-            description="This standard room is a basic hotel accommodation with essential amenities, including a bed, bathroom, desk, and basic furnishings, designed for a comfortable stay."
-            imageSrc="Double room.jpg"
-            isAvailable={false}
-            price={100}
-            className="w-80 h-96"
-          />
-          <BookingCard
-            title="Executive Room"
-            description="An executive room offers additional space, upgraded furnishings, a larger work area, and enhanced amenities, often including access to exclusive hotel services or lounges, ideal for business travelers."
-            imageSrc="Luxury room.jpg"
-            isAvailable={true}
-            price={110}
-            className="w-80 h-96"
-          />
-          <BookingCard
-            title="Presidential Room"
-            description="An executive room offers additional space, upgraded furnishings, a larger work area, and enhanced amenities, often including access to exclusive hotel services or lounges, ideal for business travelers."
-            imageSrc="Luxury room.jpg"
-            isAvailable={true}
-            price={110}
-            className="w-80 h-96"
-          />
+        <div className="mt-10 mb-10 flex flex-col items-center">
+          <div className="flex justify-center space-x-4">
+            <BookingCard
+              title="Deluxe Room"
+              description="This deluxe room offers extra space, upscale furnishings, a larger bed, premium amenities, and enhanced comfort compared to standard rooms."
+              imageSrc="Deluxe Room .jpg"
+              isAvailable={true}
+              price={120}
+              adults={2}
+              children={2}
+              className="w-80 h-96"
+            />
+            <BookingCard
+              title="Standard Room"
+              description="This standard room is a basic hotel accommodation with essential amenities, including a bed, bathroom, desk, and basic furnishings, designed for a comfortable stay."
+              imageSrc="Double room.jpg"
+              isAvailable={false}
+              price={100}
+              adults={2}
+              children={2}
+              className="w-80 h-96"
+            />
+            <BookingCard
+              title="Executive Room"
+              description="An executive room offers additional space, upgraded furnishings, a larger work area, and enhanced amenities, often including access to exclusive hotel services or lounges, ideal for business travelers."
+              imageSrc="Luxury room.jpg"
+              isAvailable={true}
+              price={110}
+              adults={2}
+              children={2}
+              className="w-80 h-96"
+            />
+            <BookingCard
+              title="Presidential Room"
+              description="An executive room offers additional space, upgraded furnishings, a larger work area, and enhanced amenities, often including access to exclusive hotel services or lounges, ideal for business travelers."
+              imageSrc="Luxury room.jpg"
+              isAvailable={true}
+              price={110}
+              adults={2}
+              children={2}
+              className="w-80 h-96"
+            />
+
+          </div>
+          <div className="mt-6">
+            <Button color="blue">Book Now</Button>
+          </div>
         </div>
       )}
 
@@ -181,10 +126,9 @@ const HomePage = () => {
       </div>
 
       <div className="my-20">
-        <EnquirySection/>
+        <EnquirySection />
       </div>
 
-  
       <FooterWithSocialLinks />
     </div>
   );
