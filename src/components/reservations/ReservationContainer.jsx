@@ -12,7 +12,13 @@ import {
     Typography,
     Select,
     Option,
-    Alert
+    Alert,
+    Card,
+    CardHeader,
+    CardBody,
+    Popover,
+    PopoverHandler,
+    PopoverContent
 } from "@material-tailwind/react";
 import DatePicker from "@/components/DatePicker";
 import { HomeIcon, BellIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
@@ -43,6 +49,8 @@ const ReservationContainer = () => {
     const [confirmations, setConfirmations] = useState({ privacy: false, bookingConditions: false });
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
+    const [roomDescription, setRoomDescription] = useState('');
+    const [isRoomAvailable, setIsRoomAvailable] = useState(false);
 
     useEffect(() => {
         setRoomType("Deluxe Room");
@@ -67,9 +75,9 @@ const ReservationContainer = () => {
 
     const handleSearchClick = async () => {
         const isoCheckInDate = new Date(checkIn);
-        const checkInISO = isoCheckInDate.toISOString();
-
         const isoCheckOutDate = new Date(checkOut);
+
+        const checkInISO = isoCheckInDate.toISOString();
         const checkOutISO = isoCheckOutDate.toISOString();
 
         const availabilityCheckingData = {
@@ -78,19 +86,21 @@ const ReservationContainer = () => {
             checkOut: checkOutISO
         };
         console.log(availabilityCheckingData);
-
         try {
             const response = await mockApiCall(availabilityCheckingData);
             if (response.success) {
                 setAlertMessage("Room is available!");
                 setAlertType("success");
+                setIsRoomAvailable(true);
             } else {
                 setAlertMessage("Room is not available.");
                 setAlertType("error");
+                setIsRoomAvailable(false);
             }
         } catch (error) {
             setAlertMessage("Error checking availability.");
             setAlertType("error");
+            setIsRoomAvailable(false);
         }
     };
 
@@ -104,19 +114,49 @@ const ReservationContainer = () => {
 
     return (
         <div className="justify-center items-center w-full px-64">
-            <section className="my-5">
-                <div className="p-10 border border-blue-gray-100 bg-[url('@/public/Deluxe Room .jpg')] rounded-xl bg-no-repeat lg:bg-contain bg-cover bg-right">
-                    <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold mb-2">
+            <Card className="w-full flex-row mt-5">
+                <CardHeader
+                    shadow={false}
+                    floated={false}
+                    className="m-0 w-2/5 shrink-0 rounded-r-none"
+                >
+                    <img
+                        src="room-01.jpg"
+                        alt="card-image"
+                        className="h-full w-full object-cover"
+                    />
+                </CardHeader>
+                <CardBody>
+                    <Typography variant="h4" color="gray" className="mb-4 uppercase">
                         Hotel Zion
                     </Typography>
-                    <Typography variant="h3" color="blue-gray">
+                    <Typography variant="h2" color="blue-gray" className="mb-2">
                         {roomType}
                     </Typography>
-                </div>
-            </section>
+                    <Typography color="gray" className="mb-8 font-normal">
+                        {roomDescription}
+                    </Typography>
+                    <a href="http://localhost:3000/suites" className="inline-block">
+                        <Button variant="text" className="flex items-center gap-2">
+                            Learn More
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                className="h-4 w-4"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                                />
+                            </svg>
+                        </Button>
+                    </a>
+                </CardBody>
+            </Card>
             <div>
                 <Button variant="text" className="flex items-center gap-2">
                     <svg
@@ -157,6 +197,7 @@ const ReservationContainer = () => {
                     </div>
                     <div className="w-1/4 relative p-20">
                         <Button onClick={handleSearchClick} color="blue">Check Availability</Button>
+
                     </div>
                 </div>
             </div>
@@ -292,7 +333,7 @@ const ReservationContainer = () => {
                         </Timeline>
                     </div>
                     <div className="flex flex-auto gap-4 mt-4 mb-16">
-                        {!confirmations.privacy || !confirmations.bookingConditions ? (
+                        {!isRoomAvailable || !confirmations.privacy || !confirmations.bookingConditions ? (
                             <Button disabled={true}>Confirm</Button>
                         ) : (
                             <Button onClick={handleConfirmClick}>Confirm</Button>
