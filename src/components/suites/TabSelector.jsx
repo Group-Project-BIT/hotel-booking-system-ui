@@ -7,11 +7,11 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import SitePanel from "./SitePanel";
-import { StickyNavbar } from "../Navbar";
 import { MasonryGridGallery } from "./Gallery";
-import { FooterWithSocialLinks } from "../Footer";
+import { useRouter } from "next/navigation";
 
 export function SuiteSelectorTabs() {
+  const router = useRouter();
   const data = [
     {
       label: "Deluxe suite",
@@ -46,15 +46,14 @@ export function SuiteSelectorTabs() {
   const [activeTab, setActiveTab] = useState(data[0].label); // Set initial active tab to the label of the first data item
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <StickyNavbar />
+    <div className="bg-gray-100">
 
       {/* Hero Section */}
       <div className="bg-cover bg-center h-screen flex items-center justify-center text-white" style={{ backgroundImage: "url('hotel res.jpg')" }}>
         <div className="text-center px-4">
           <h1 className="text-5xl font-bold mb-6">Welcome to ZION Hotels Suites</h1>
           <p className="text-xl mb-6">Experience unparalleled comfort and elegance in our premium accommodations.</p>
-          
+
         </div>
       </div>
 
@@ -92,9 +91,9 @@ export function SuiteSelectorTabs() {
             }}
           >
             {data.map(({ label, value }) => (
-              <Tab 
-                key={value} 
-                value={value} 
+              <Tab
+                key={value}
+                value={value}
                 onClick={() => setActiveTab(value)}
                 className={`text-lg px-6 py-3 ${activeTab === value ? 'text-2xl font-bold' : ''}`}
               >
@@ -112,7 +111,7 @@ export function SuiteSelectorTabs() {
                 <div className="w-full md:w-1/2">
                   <h2 className="text-4xl font-bold mb-4">{label}</h2>
                   <p className="text-lg mb-4">{desc}</p>
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                  <button onClick={() => router.push("./reservations")} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
                     Reserve now
                   </button>
                 </div>
@@ -126,10 +125,10 @@ export function SuiteSelectorTabs() {
       <div className="text-center py-20 bg-white">
         <h1 className="text-4xl font-bold mb-8">Amenities</h1>
         <p className="text-lg max-w-4xl mx-auto mb-12">
-          This four-bedroom suite features multiple indoor and outdoor living and entertainment spaces, 
+          This four-bedroom suite features multiple indoor and outdoor living and entertainment spaces,
           an eight-seater dining table, state-of-the-art kitchen, three king-sized beds, one queen-sized bed,
-          ample closet and storage space, and en suites with rain showers. The master bedroom comes with its 
-          own writing desk, twin showers, a private balcony, and floor-to-ceiling windows giving you amazing 
+          ample closet and storage space, and en suites with rain showers. The master bedroom comes with its
+          own writing desk, twin showers, a private balcony, and floor-to-ceiling windows giving you amazing
           views of the ocean.
         </p>
         <img
@@ -147,13 +146,11 @@ export function SuiteSelectorTabs() {
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Book Your Stay?</h2>
           <p className="text-xl mb-8">Experience the best in luxury and comfort. Reserve your suite today!</p>
-          <button className="bg-white text-blue-500 font-bold py-3 px-6 rounded hover:bg-gray-200">
+          <button onClick={() => router.push("./reservations")} className="bg-white text-blue-500 font-bold py-3 px-6 rounded hover:bg-gray-200">
             Book Now
           </button>
         </div>
       </div>
-
-      <FooterWithSocialLinks />
     </div>
   );
 }

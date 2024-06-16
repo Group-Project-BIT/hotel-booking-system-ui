@@ -1,23 +1,26 @@
 import { Typography } from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
 
 const LINKS = [
   {
-    title: "Product",
-    items: ["Overview", "Features", "Solutions", "Tutorials"],
-  },
-  {
     title: "Company",
-    items: ["About us", "Careers", "Press", "News"],
+    items: ["Home", "Reservation"],
   },
   {
     title: "Resource",
-    items: ["Blog", "Newsletter", "Events", "Help center"],
+    items: ["Suites", "About us"],
+  },
+  {
+    title: "",
+    items: ["Dashboard"],
   },
 ];
 
 const currentYear = new Date().getFullYear();
 
 export function FooterWithSocialLinks() {
+  const router = useRouter();
+
   return (
     <footer className="relative w-full bg-gradient-to-r from-blue-800 to-teal-700 mt-16 pt-16 pb-8 text-white">
       <div className="max-w-7xl mx-auto px-8">
@@ -40,9 +43,8 @@ export function FooterWithSocialLinks() {
                   {items.map((link) => (
                     <li key={link}>
                       <Typography
-                        as="a"
-                        href="#"
-                        className="transition-colors hover:text-gray-200"
+                        onClick={() => router.push("./auth/sign-in")}
+                        className="transition-colors hover:text-gray-200 cursor-pointer"
                       >
                         {link}
                       </Typography>
