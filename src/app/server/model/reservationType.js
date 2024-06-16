@@ -7,5 +7,5 @@ const reservationTypeSchema = new mongoose.Schema({
     enum: ["full_board", "half_board", "bed_and_breakfirst"],
   },
 });
-const reservationType = mongoose.models.ReservationType || mongoose.model('ReservationType', reservationTypeSchema);
-export default reservationType;
+const reservation_Type = mongoose.models.ReservationType || mongoose.model('ReservationType', reservationTypeSchema);
+export default reservation_Type;

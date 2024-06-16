@@ -5,11 +5,11 @@ import roomModel from "@/app/server/model/roomModel";
 export const GET = async () => {
   await connectDb();
   try {
-    const rooms = await roomModel.find();
+    const rooms = await roomModel.find().populate("room_type");
     
     const createdRoomsCount = rooms.length
 
-    return new Response(JSON.stringify({rooms: rooms, createdRoomsCount: createdRoomsCount}), {
+    return new Response(JSON.stringify(rooms), {
       status: 200,
     });
   } catch (err) {

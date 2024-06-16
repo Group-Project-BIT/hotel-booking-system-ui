@@ -16,4 +16,5 @@ const reservationPrice = new mongoose.Schema({
     required: true
   }
 });
-export default mongoose.model("Price", reservationPrice);
+const reservation_price = mongoose.models.ReservationPrice || mongoose.model('ReservationPrice', reservationPrice);
+export default reservation_price;

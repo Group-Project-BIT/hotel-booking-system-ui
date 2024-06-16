@@ -1,12 +1,12 @@
 import connectDb from "@/app/server/config/configDb";
-import roomType from "@/app/server/model/roomType";
-import roomModel from "@/app/server/model/roomModel";
+import guestModel from "@/app/server/model/guestModel";
 
 export const GET = async () => {
   await connectDb();
+
   try {
-    const roomTypes = await roomType.find();
-    return new Response(JSON.stringify( roomTypes), {
+    const guest = await guestModel.find();
+    return new Response(JSON.stringify(guest), {
       status: 200,
     });
   } catch (err) {

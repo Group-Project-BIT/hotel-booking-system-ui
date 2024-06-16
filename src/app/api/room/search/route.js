@@ -34,7 +34,7 @@ import reservationModel from "@/app/server/model/reservationModel";
 
 export const POST = async (req) => {
   await connectDb()
-    const { room_type, checkin, checkout } = await req.json();
+    const { room_type_name, checkin, checkout } = await req.json();
   try {
     
 
@@ -49,7 +49,7 @@ export const POST = async (req) => {
     }
 
     // Find all rooms of the given type
-    const roomsOfType = await roomModel.find({ room_type });
+    const roomsOfType = await roomModel.find({ room_type_name });
 
     // Find all reservations that overlap with the given dates
     const overlappingReservations = await reservationModel.find({
