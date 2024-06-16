@@ -83,14 +83,7 @@ const HomePage = () => {
     <div>
       <StickyNavbar />
 
-      <header
-        className="bg-blue-900 text-white py-40 relative"
-        style={{
-          backgroundImage: "url('header-bg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <header className="inset-0 bg-black bg-opacity-50 text-white py-40 relative" style={{ backgroundImage: "url('home.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
         <div className="container mx-auto flex flex-col md:flex-row items-center">
           <div className="md:w-1/2">
             <h1 className="text-6xl font-bold">Relax & Recharge.</h1>
