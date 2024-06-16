@@ -1,46 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Typography, Button, Input } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["First Name", "Last Name", "Email", "Phone", "NIC Number", "Passport"];
-
-const INITIAL_TABLE_ROWS = [
-  {
-    f_name: "John",
-    l_name: "Michael",
-    email: "john.michael@example.com",
-    phone: "123-456-7890",
-    nic_number: "200030200300",
-    passport: "N/A"
-  },
-  {
-    f_name: "John",
-    l_name: "Michael",
-    email: "john.michael@example.com",
-    phone: "123-456-7890",
-    nic_number: "200030200300",
-    passport: "N/A"
-  },
-  {
-    f_name: "John",
-    l_name: "Michael",
-    email: "john.michael@example.com",
-    phone: "123-456-7890",
-    nic_number: "200030200300",
-    passport: "N/A"
-  },
-  {
-    f_name: "John",
-    l_name: "Michael",
-    email: "john.michael@example.com",
-    phone: "123-456-7890",
-    nic_number: "200030200300",
-    passport: "N/A"
-  },
-  
-];
+const TABLE_HEAD = ["First Name", "Last Name", "Email","Address", "Phone", "NIC Number"];
 
 export function TableWithStripedGuest() {
-  const [rows, setRows] = useState(INITIAL_TABLE_ROWS);
+  const [rows, setRows] = useState([]);
+
+  useEffect(()=>{
+    fetchGuestDetails();
+  },[])
+  const fetchGuestDetails = async () => {
+    try {
+      const response = await fetch("/api/guests", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      setRows(data);
+    } catch (error) {
+      console.error("Error fetching room types:", error);
+    }
+  };
   const [editingIndex, setEditingIndex] = useState(null);
   const [editFormData, setEditFormData] = useState({
     f_name: '',
@@ -71,7 +51,7 @@ export function TableWithStripedGuest() {
           </tr>
         </thead>
         <tbody>
-          {rows.map(({ f_name, l_name, email, phone, nic_number, passport }, index) => (
+          {rows.map((item, index) => (
             <tr key={index} className="even:bg-blue-gray-50/50">
               {editingIndex === index ? (
                 <>
@@ -138,34 +118,35 @@ export function TableWithStripedGuest() {
                 <>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {f_name}
+                      {item.first_name}
                     </Typography>
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {l_name}
+                      {item.last_name}
                     </Typography>
                   </td>
                   <td className="p-2">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {email}
+                      {item.email}
                     </Typography>
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {phone}
+                      {item.address}
                     </Typography>
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {nic_number}
+                      {item.phone}
                     </Typography>
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {passport}
+                      {item.nic_number}
                     </Typography>
                   </td>
+                  
                   <td className="p-4 flex gap-2">
                     <Button onClick={() => handleEditClick(index)} className="mr-2">Edit</Button>
                     <Button onClick={() => handleDeleteClick(index)}>Delete</Button>

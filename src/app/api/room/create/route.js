@@ -19,7 +19,7 @@ export const POST = async (req) => {
     });
     
     await room.save();
-    return new Response(JSON.stringify({msg: "Room create success",newroom:room}), {
+    return new Response(JSON.stringify(room), {
       status: 201,
     });
   } catch (err) {

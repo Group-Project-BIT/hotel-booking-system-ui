@@ -22,6 +22,7 @@ import {
 } from "@material-tailwind/react";
 import DatePicker from "@/components/DatePicker";
 import { HomeIcon, BellIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
 
 function Icon() {
     return (
@@ -45,13 +46,14 @@ const ReservationContainer = () => {
     const [checkOut, setCheckOut] = useState('');
     const [roomType, setRoomType] = useState("Deluxe Room");
     const [reservationType, setReservationType] = useState("Bed and Breakfast");
-    const [guest, setGuest] = useState({ f_name: '', l_name: '', email: '', phone: '', passport: '', nic_number: '' });
+    const [guest, setGuest] = useState({ f_name: '', l_name: '', email: '', phone: '', address: '', nic_number: '' });
     const [confirmations, setConfirmations] = useState({ privacy: false, bookingConditions: false });
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState("");
     const [roomDescription, setRoomDescription] = useState('');
     const [isRoomAvailable, setIsRoomAvailable] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false); 
+    const router = useRouter(); 
     useEffect(() => {
         setRoomType("Deluxe Room");
     }, []);
@@ -61,7 +63,7 @@ const ReservationContainer = () => {
         setGuest({ ...guest, [name]: value });
     };
 
-    const handleConfirmClick = () => {
+    const handleConfirmClick = async() => {
         const reservationData = {
             roomType,
             checkIn,
@@ -71,6 +73,31 @@ const ReservationContainer = () => {
             confirmations
         };
         console.log(reservationData);
+        try {
+            setIsLoading(true)
+            const response = await fetch("/api/room/book", {
+              method: "POST",
+              body: JSON.stringify({
+                room_type_name: roomType,
+                check_in: checkIn,
+                check_out: checkOut,
+                first_name: guest.f_name,
+                last_name: guest.l_name,
+                email: guest.email,
+                nic_number: guest.nic_number,
+                address: guest.address,
+                phone: guest.phone,
+                reservation_type_name: reservationType
+                
+              }),
+            });
+      
+            const data = await response.json();
+            router.push("/");
+            setIsLoading(false)
+          } catch (error) {
+            console.error("Error fetching room types:", error);
+          }
     };
 
     const handleSearchClick = async () => {
@@ -87,8 +114,18 @@ const ReservationContainer = () => {
         };
         console.log(availabilityCheckingData);
         try {
-            const response = await mockApiCall(availabilityCheckingData);
-            if (response.success) {
+            const responseFromApi = await fetch("/api/room/search", {
+                method: "POST",
+                body: JSON.stringify({
+                  room_type:roomType,
+                  checkin: checkInISO,
+                  checkout: checkOutISO
+                }),
+              });
+        
+              const response = await responseFromApi.json();
+            // const response = await mockApiCall(availabilityCheckingData);
+            if (response.available) {
                 setAlertMessage("Room is available!");
                 setAlertType("success");
                 setIsRoomAvailable(true);
@@ -104,13 +141,6 @@ const ReservationContainer = () => {
         }
     };
 
-    const mockApiCall = (data) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({ success: true });
-            }, 1000);
-        });
-    };
 
     return (
         <div className="justify-center items-center w-full px-64">
@@ -136,7 +166,7 @@ const ReservationContainer = () => {
                     <Typography color="gray" className="mb-8 font-normal">
                         {roomDescription}
                     </Typography>
-                    <a href="http://localhost:3000/suites" className="inline-block">
+                    <a onClick={()=>router.push("/suites")} className="inline-block">
                         <Button variant="text" className="flex items-center gap-2">
                             Learn More
                             <svg
@@ -158,7 +188,7 @@ const ReservationContainer = () => {
                 </CardBody>
             </Card>
             <div>
-                <Button variant="text" className="flex items-center gap-2">
+                <Button variant="text" className="flex items-center gap-2" onClick={()=>router.back()}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -192,6 +222,7 @@ const ReservationContainer = () => {
                         >
                             <Option value="Deluxe Room">Deluxe Room</Option>
                             <Option value="Executive Room">Executive Room</Option>
+                            <Option value="Presidential Room">Presidential Room</Option>
                             <Option value="Standard Room">Standard Room</Option>
                         </Select>
                     </div>
@@ -218,9 +249,9 @@ const ReservationContainer = () => {
                     <div className="p-4 rounded mb-4">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">Reservation Type</h2>
                         <div className="flex gap-10">
-                            <Radio name="reservationType" value="Full Board" onChange={(e) => setReservationType(e.target.value)} label="Full Board" />
-                            <Radio name="reservationType" value="Half Board" onChange={(e) => setReservationType(e.target.value)} label="Half Board" />
-                            <Radio name="reservationType" value="Bed and Breakfast" onChange={(e) => setReservationType(e.target.value)} label="Bed and Breakfast" defaultChecked />
+                            <Radio name="reservationType" value="full_board" onChange={(e) => setReservationType(e.target.value)} label="Full Board" />
+                            <Radio name="reservationType" value="half_board" onChange={(e) => setReservationType(e.target.value)} label="Half Board" />
+                            <Radio name="reservationType" value="bed_and_breakfast" onChange={(e) => setReservationType(e.target.value)} label="Bed and Breakfast" defaultChecked />
                         </div>
                     </div>
                     <div className="p-4 rounded flex flex-col gap-4 mb-4">
@@ -229,7 +260,7 @@ const ReservationContainer = () => {
                         <Input label="Last Name" id="l_name" type="text" name="l_name" value={guest.l_name} onChange={handleInputChange} autoComplete="l_name" />
                         <Input label="Email" id="email" name="email" type="email" value={guest.email} onChange={handleInputChange} autoComplete="email" />
                         <Input label="Phone Number" id="phone" name="phone" type="text" value={guest.phone} onChange={handleInputChange} autoComplete="phone" />
-                        <Input label="Passport Number" type="text" name="passport" id="passport" value={guest.passport} onChange={handleInputChange} autoComplete="passport" />
+                        <Input label="Address" type="text" name="address" id="address" value={guest.address} onChange={handleInputChange} autoComplete="address" />
                         <Input label="NIC Number" type="text" name="nic_number" id="nic_number" value={guest.nic_number} onChange={handleInputChange} autoComplete="nic_number" />
                     </div>
                     <div className="p-4">
@@ -336,7 +367,7 @@ const ReservationContainer = () => {
                         {!isRoomAvailable || !confirmations.privacy || !confirmations.bookingConditions ? (
                             <Button disabled={true}>Confirm</Button>
                         ) : (
-                            <Button onClick={handleConfirmClick}>Confirm</Button>
+                            <Button onClick={handleConfirmClick} loading = {isLoading}>Confirm</Button>
                         )}
                     </div>
                 </div>
