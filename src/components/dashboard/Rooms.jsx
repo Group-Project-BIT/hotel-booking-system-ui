@@ -10,11 +10,12 @@ import {
     Typography,
     Button,
     CardBody,
-    Chip,
     CardFooter,
     Tabs,
     TabsHeader,
-    Tab
+    Tab,
+    Select,
+    Option
 } from "@material-tailwind/react";
 
 const TABS = [
@@ -23,21 +24,21 @@ const TABS = [
         value: "all",
     },
     {
-        label: "Online",
-        value: "online",
+        label: "True",
+        value: "true",
     },
     {
-        label: "Offline",
-        value: "offline",
+        label: "False",
+        value: "false",
     },
 ];
 
-const TABLE_HEAD = ["Room Number", "Room Type", "Maintaince"];
+const TABLE_HEAD = ["Room Number", "Room Type", "Maintenance"];
 
 const INITIAL_TABLE_ROWS = [
     {
         room_no: "001",
-        room_type: "Dulex",
+        room_type: "Deluxe",
         room_maintaince: "true",
     },
     {
@@ -47,7 +48,7 @@ const INITIAL_TABLE_ROWS = [
     },
     {
         room_no: "003",
-        room_type: "standrad",
+        room_type: "Standard",
         room_maintaince: "false",
     },
 ];
@@ -85,32 +86,26 @@ export function RoomTable() {
     };
 
     const [isCardVisible, setIsCardVisible] = useState(false);
-    const [newRecepName, setNewRecepName] = useState('');
-    const [newRecepEmail, setNewRecepEmail] = useState('');
+    const [newRoomType, setNewRoomType] = useState('');
 
     const handleAddClick = () => {
         setIsCardVisible(true);
     };
 
-    const handleAddFormChange = (event) => {
-        const { name, value } = event.target;
-        if (name === 'newRecepName') {
-            setNewRecepName(value);
-        } else if (name === 'newRecepEmail') {
-            setNewRecepEmail(value);
-        }
+    const handleAddFormChange = (value) => {
+        setNewRoomType(value);
     };
 
     const handleAddReceptionist = (event) => {
         event.preventDefault();
+        const newRoomNumber = (parseInt(rows[rows.length - 1].room_no) + 1).toString().padStart(3, '0');
         const newReceptionist = {
-            room_no: + 1,
-            room_type: newRecepName,
+            room_no: newRoomNumber,
+            room_type: newRoomType,
             room_maintaince: "false",
         };
         setRows([...rows, newReceptionist]);
-        setNewRecepName('');
-        setNewRecepEmail('');
+        setNewRoomType('');
         setIsCardVisible(false);
     };
 
@@ -140,17 +135,21 @@ export function RoomTable() {
                                     <Typography variant="h6" color="blue-gray" className="-mb-3">
                                         Room Type
                                     </Typography>
-                                    <Input
+                                    <Select
                                         size="lg"
-                                        placeholder="Deluxe"
-                                        name="newRecepName"
-                                        value={newRecepName}
+                                        name="roomType"
+                                        placeholder="Deluxe Room"
+                                        value={newRoomType}
                                         onChange={handleAddFormChange}
                                         className="!border-t-blue-gray-200 focus:!border-t-gray-900"
                                         labelProps={{
                                             className: "before:content-none after:content-none",
                                         }}
-                                    />
+                                    >
+                                        <Option value="Deluxe">Deluxe Room</Option>
+                                        <Option value="Executive">Executive Room</Option>
+                                        <Option value="Standard">Standard Room</Option>
+                                    </Select>
                                 </div>
                                 <Button type="submit" className="mt-6" fullWidth>
                                     Add Room
@@ -203,7 +202,7 @@ export function RoomTable() {
                                         <td className="p-4">
                                             <Input
                                                 type="text"
-                                                name="recep_name"
+                                                name="room_no"
                                                 value={editFormData.room_no}
                                                 onChange={handleFormChange}
                                                 className="font-normal"
@@ -211,8 +210,8 @@ export function RoomTable() {
                                         </td>
                                         <td className="p-2">
                                             <Input
-                                                type="email"
-                                                name="recep_email"
+                                                type="text"
+                                                name="room_type"
                                                 value={editFormData.room_type}
                                                 onChange={handleFormChange}
                                                 className="font-normal"
@@ -221,7 +220,7 @@ export function RoomTable() {
                                         <td className="p-4">
                                             <Input
                                                 type="text"
-                                                name="online"
+                                                name="room_maintaince"
                                                 value={editFormData.room_maintaince}
                                                 onChange={handleFormChange}
                                                 className="font-normal"
