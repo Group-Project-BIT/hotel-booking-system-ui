@@ -1,6 +1,8 @@
 import { Carousel, Typography, Button } from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
 
 export function CarouselWithContent() {
+  const router = useRouter()
   return (
     <div className="flex flex-wrap bg-gray-200  ">
       <div className="w-1/2 items-center gap-6 px-4 py-8 ">
@@ -29,12 +31,12 @@ export function CarouselWithContent() {
                 whether it's a bustling city stay, a serene beach getaway, or an adventurous mountain escape.
               </Typography>
               <div className="flex justify-center gap-2">
-                <Button size="lg" color="white">
+                <Button size="lg" color="white" onClick={()=>router.push("/suites")}>
                   Explore
                 </Button>
-                <Button size="lg" color="white" variant="text">
+                {/* <Button size="lg" color="white" variant="text">
                   Gallery
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
@@ -65,12 +67,12 @@ export function CarouselWithContent() {
                 
               </Typography>
               <div className="flex gap-2">
-                <Button size="lg" color="white">
+                <Button size="lg" color="white" onClick={()=>router.push("/suites")}>
                   Explore
                 </Button>
-                <Button size="lg" color="white" variant="text">
+                {/* <Button size="lg" color="white" variant="text">
                   Gallery
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
@@ -99,12 +101,12 @@ export function CarouselWithContent() {
                 Our hotels are strategically located to put you at the heart of the action.  
               </Typography>
               <div className="flex gap-2">
-                <Button size="lg" color="white">
+                <Button size="lg" color="white" onClick={()=>router.push("/suites")}>
                   Explore
                 </Button>
-                <Button size="lg" color="white" variant="text">
+                {/* <Button size="lg" color="white" variant="text">
                   Gallery
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
