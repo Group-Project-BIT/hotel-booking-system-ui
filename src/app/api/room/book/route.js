@@ -42,14 +42,9 @@ export const POST = async (req) => {
     });
     await guest.save();
 
-
-    // const reservation_type = new reservationType({
-    //   reservation_type_name
-    // })
     const reservation_type = await reservationType.findOne({
       reservation_type_name:reservation_type_name
     })
-    // await reservation_type.save();
 
     const reservation = new reservationModel({
       guest_id: guest._id,
