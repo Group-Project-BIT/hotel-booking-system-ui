@@ -57,7 +57,7 @@ const ReservationContainer = () => {
     useEffect(() => {
         setRoomType("Deluxe Room");
     }, []);
-
+   
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setGuest({ ...guest, [name]: value });
@@ -351,13 +351,13 @@ const ReservationContainer = () => {
                                 </TimelineHeader>
                                 <TimelineBody>
                                     <Typography color="gary" className="font-normal text-gray-600">
-                                        - {roomType}  -   $
+                                        - {roomType}  -   120$
                                     </Typography>
                                     <Typography color="gary" className="font-normal text-gray-600">
-                                        - {reservationType}     -   $
+                                        - {reservationType}     -   65$
                                     </Typography>
                                     <Typography color="gary" className="font-normal text-gray-600">
-                                        - Total Charge     -   $
+                                        - Total Charge     -   185$
                                     </Typography>
                                 </TimelineBody>
                             </TimelineItem>
