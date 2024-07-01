@@ -44,28 +44,11 @@ const TABLE_HEAD = [
 ];
 
 const INITIAL_TABLE_ROWS = [
-  {
-    nic_number: "200030200300",
-    f_name: "John",
-    type_name: "Deluxe",
-    typename: "Full Board",
-    check_in: "29.06.2024",
-    check_out: "30.06.2024",
-    status: true,
-  },
-  {
-    nic_number: "200050601001",
-    f_name: "Rathnayake",
-    type_name: "Deluxe",
-    typename: "Full Board",
-    check_in: "24.06.2024",
-    check_out: "26.06.2024",
-    status: false,
-  },
+  
   {
     nic_number: "200050601001",
     f_name: "Rayan",
-    type_name: "Deluxe",
+    type_name: "Deluxe Room",
     typename: "Full Board",
     check_in: "24.06.2024",
     check_out: "26.06.2024",

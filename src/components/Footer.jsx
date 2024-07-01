@@ -43,7 +43,7 @@ export function FooterWithSocialLinks() {
                   {items.map((link) => (
                     <li key={link}>
                       <Typography
-                        onClick={() => router.push("./auth/sign-in")}
+                        onClick={() => router.push("/auth/sign-in")}
                         className="transition-colors hover:text-gray-200 cursor-pointer"
                       >
                         {link}
