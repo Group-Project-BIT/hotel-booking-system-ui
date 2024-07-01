@@ -16,13 +16,23 @@ import {
     Card,
     CardHeader,
     CardBody,
-    Popover,
-    PopoverHandler,
-    PopoverContent
 } from "@material-tailwind/react";
 import DatePicker from "@/components/DatePicker";
 import { HomeIcon, BellIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+
+const roomPrices = {
+    "Deluxe Room": 160,
+    "Executive Room": 210,
+    "Presidential Room": 300,
+    "Standard Room": 100,
+};
+
+const reservationPrices = {
+    "Full Board": 80,
+    "Half Board": 50,
+    "Bed and Breakfast": 40,
+};
 
 function Icon() {
     return (
@@ -52,18 +62,21 @@ const ReservationContainer = () => {
     const [alertType, setAlertType] = useState("");
     const [roomDescription, setRoomDescription] = useState('');
     const [isRoomAvailable, setIsRoomAvailable] = useState(false);
-    const [isLoading, setIsLoading] = useState(false); 
-    const router = useRouter(); 
+    const [isLoading, setIsLoading] = useState(false);
+    const [totalCharge, setTotalCharge] = useState(0);
+    const router = useRouter();
+
     useEffect(() => {
         setRoomType("Deluxe Room");
+        setTotalCharge(roomPrices["Deluxe Room"] + reservationPrices["Bed and Breakfast"]);
     }, []);
-   
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setGuest({ ...guest, [name]: value });
     };
 
-    const handleConfirmClick = async() => {
+    const handleConfirmClick = async () => {
         const reservationData = {
             roomType,
             checkIn,
@@ -76,28 +89,28 @@ const ReservationContainer = () => {
         try {
             setIsLoading(true)
             const response = await fetch("/api/room/book", {
-              method: "POST",
-              body: JSON.stringify({
-                room_type_name: roomType,
-                check_in: checkIn,
-                check_out: checkOut,
-                first_name: guest.f_name,
-                last_name: guest.l_name,
-                email: guest.email,
-                nic_number: guest.nic_number,
-                address: guest.address,
-                phone: guest.phone,
-                reservation_type_name: reservationType
-                
-              }),
+                method: "POST",
+                body: JSON.stringify({
+                    room_type_name: roomType,
+                    check_in: checkIn,
+                    check_out: checkOut,
+                    first_name: guest.f_name,
+                    last_name: guest.l_name,
+                    email: guest.email,
+                    nic_number: guest.nic_number,
+                    address: guest.address,
+                    phone: guest.phone,
+                    reservation_type_name: reservationType
+
+                }),
             });
-      
+
             const data = await response.json();
             router.push("/");
             setIsLoading(false)
-          } catch (error) {
+        } catch (error) {
             console.error("Error fetching room types:", error);
-          }
+        }
     };
 
     const handleSearchClick = async () => {
@@ -117,13 +130,13 @@ const ReservationContainer = () => {
             const responseFromApi = await fetch("/api/room/search", {
                 method: "POST",
                 body: JSON.stringify({
-                  room_type:roomType,
-                  checkin: checkInISO,
-                  checkout: checkOutISO
+                    room_type: roomType,
+                    checkin: checkInISO,
+                    checkout: checkOutISO
                 }),
-              });
-        
-              const response = await responseFromApi.json();
+            });
+
+            const response = await responseFromApi.json();
             // const response = await mockApiCall(availabilityCheckingData);
             if (response.available) {
                 setAlertMessage("Room is available!");
@@ -140,6 +153,12 @@ const ReservationContainer = () => {
             setIsRoomAvailable(false);
         }
     };
+
+    useEffect(() => {
+        const roomPrice = roomPrices[roomType];
+        const reservationPrice = reservationPrices[reservationType];
+        setTotalCharge(roomPrice + reservationPrice);
+    }, [roomType, reservationType]);
 
 
     return (
@@ -166,7 +185,7 @@ const ReservationContainer = () => {
                     <Typography color="gray" className="mb-8 font-normal">
                         {roomDescription}
                     </Typography>
-                    <a onClick={()=>router.push("/suites")} className="inline-block">
+                    <a onClick={() => router.push("/suites")} className="inline-block">
                         <Button variant="text" className="flex items-center gap-2">
                             Learn More
                             <svg
@@ -188,7 +207,7 @@ const ReservationContainer = () => {
                 </CardBody>
             </Card>
             <div>
-                <Button variant="text" className="flex items-center gap-2" onClick={()=>router.back()}>
+                <Button variant="text" className="flex items-center gap-2" onClick={() => router.back()}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -220,10 +239,10 @@ const ReservationContainer = () => {
                             value={roomType}
                             onChange={(value) => setRoomType(value)}
                         >
-                            <Option value="Deluxe Room">Deluxe Room</Option>
-                            <Option value="Executive Room">Executive Room</Option>
-                            <Option value="Presidential Room">Presidential Room</Option>
-                            <Option value="Standard Room">Standard Room</Option>
+                            {Object.keys(roomPrices).map((room) => (
+                                <Option key={room} value={room}>{room}</Option>
+
+                            ))}
                         </Select>
                     </div>
                     <div className="w-1/4 relative p-20">
@@ -249,9 +268,16 @@ const ReservationContainer = () => {
                     <div className="p-4 rounded mb-4">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">Reservation Type</h2>
                         <div className="flex gap-10">
-                            <Radio name="reservationType" value="full_board" onChange={(e) => setReservationType(e.target.value)} label="Full Board" />
-                            <Radio name="reservationType" value="half_board" onChange={(e) => setReservationType(e.target.value)} label="Half Board" />
-                            <Radio name="reservationType" value="bed_and_breakfast" onChange={(e) => setReservationType(e.target.value)} label="Bed and Breakfast" defaultChecked />
+                            <Select
+                                label="Reservation Type"
+                                name="reservationType"
+                                value={reservationType}
+                                onChange={(value) => setReservationType(value)}
+                            >
+                                {Object.keys(reservationPrices).map((reservation) => (
+                                    <Option key={reservation} value={reservation}>{reservation}</Option>
+                                ))}
+                            </Select>
                         </div>
                     </div>
                     <div className="p-4 rounded flex flex-col gap-4 mb-4">
@@ -351,13 +377,13 @@ const ReservationContainer = () => {
                                 </TimelineHeader>
                                 <TimelineBody>
                                     <Typography color="gary" className="font-normal text-gray-600">
-                                        - {roomType}  -   120$
+                                        - {roomType}  -   {roomPrices[roomType]}$
                                     </Typography>
                                     <Typography color="gary" className="font-normal text-gray-600">
-                                        - {reservationType}     -   65$
+                                        - {reservationType}     -   {reservationPrices[reservationType]}$
                                     </Typography>
                                     <Typography color="gary" className="font-normal text-gray-600">
-                                        - Total Charge     -   185$
+                                        - Total Charge     -   {totalCharge}$
                                     </Typography>
                                 </TimelineBody>
                             </TimelineItem>
@@ -367,7 +393,7 @@ const ReservationContainer = () => {
                         {!isRoomAvailable || !confirmations.privacy || !confirmations.bookingConditions ? (
                             <Button disabled={true}>Confirm</Button>
                         ) : (
-                            <Button onClick={handleConfirmClick} loading = {isLoading}>Confirm</Button>
+                            <Button onClick={handleConfirmClick} loading={isLoading}>Confirm</Button>
                         )}
                     </div>
                 </div>
