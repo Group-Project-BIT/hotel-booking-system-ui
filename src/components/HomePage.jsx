@@ -6,6 +6,7 @@ import { BookingCard } from "./Card";
 import { FooterWithSocialLinks } from "./Footer";
 import EnquirySection from "./Enquiry";
 import { useRouter } from "next/navigation";
+import ChatBot from "./ChatBot"; // Import the ChatBot component
 
 const Testimonials = () => {
   const testimonials = [
@@ -61,10 +62,12 @@ const Testimonials = () => {
 const HomePage = () => {
   const [isCardVisible, setIsCardVisible] = useState(true);
   const [roomTypes, setRoomTypes] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
+
   useEffect(() => {
     fetchRoomTypes();
   }, []);
+
   const fetchRoomTypes = async () => {
     try {
       const response = await fetch("/api/roomTypes", {
@@ -77,7 +80,6 @@ const HomePage = () => {
       console.error("Error fetching room types:", error);
     }
   };
-
 
   return (
     <div>
@@ -120,7 +122,7 @@ const HomePage = () => {
           )}
         </div>
         <div className="mt-6">
-          <Button color="blue" onClick={()=>router.push("/reservations")}>Book Now</Button>
+          <Button color="blue" onClick={() => router.push("/reservations")}>Book Now</Button>
         </div>
       </div>
 
@@ -135,6 +137,7 @@ const HomePage = () => {
       </div>
 
       <FooterWithSocialLinks />
+      <ChatBot /> {/* Add the ChatBot component here */}
     </div>
   );
 };
