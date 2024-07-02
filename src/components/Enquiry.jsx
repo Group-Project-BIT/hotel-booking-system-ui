@@ -6,12 +6,31 @@ const EnquirySection = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
-
-  const handleSubmit = (e) => {
+const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Add form submission logic here
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          message: message,
+          username: name
+        }),
+      });
+
+      const data = await response.json();
+      alert("Enquiry successfully sent!")
+      setSuccess(true);
+      setIsLoading(false)
+    } catch (error) {
+      console.error("Error fetching room types:", error);
+      setIsLoading(false)
+    }
     console.log('Enquiry submitted', { name, email, message });
-    setSuccess(true);
+    
   };
 
   return (
@@ -63,7 +82,7 @@ const EnquirySection = () => {
           ></textarea>
         </div>
         <div className="flex items-center justify-between">
-          <Button type="submit" color="blue">
+          <Button type="submit" color="blue" loading = {isLoading}>
             Submit
           </Button>
         </div>

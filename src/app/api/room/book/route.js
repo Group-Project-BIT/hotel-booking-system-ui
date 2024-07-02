@@ -50,8 +50,8 @@ export const POST = async (req) => {
       guest_id: guest._id,
       room_id: room._id,
       reservation_type: reservation_type._id,
-      check_in,
-      check_out,
+      check_in: check_in,
+      check_out: check_out,
       status: "confirmed",
     });
     await reservation.save();

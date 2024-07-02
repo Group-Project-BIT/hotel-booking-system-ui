@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Input,
@@ -12,6 +12,8 @@ const SignInFrom = () => {
   const router = useRouter();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState()
+
   const handleSignIn = async() =>{
     try {
       // setIsLoading(true)
@@ -30,11 +32,13 @@ const SignInFrom = () => {
       const data = await response.json();
       if (data.isAdmin) {
         localStorage.setItem('isAdmin', 'true');
+        localStorage.setItem('role', data.role);
         router.push('/dashboard'); // Redirect to dashboard page
         alert("Login Successful!")
       } else {
         alert('Invalid email or password');
       }
+      // setRole(data.role)
       // setIsLoading(false)
     } catch (error) {
       console.error("Error fetching room types:", error);

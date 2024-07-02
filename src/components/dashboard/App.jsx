@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SidebarWithContentSeparator } from './SideNavBar';
 import { ReservationTable } from './Reservation';
 import { InquiryTable } from './Inbox';
@@ -13,6 +13,11 @@ import { Dashboard } from './Dashboard';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState();
+  // const [role, setRole] = useState();
+  // useEffect(()=>{
+  //   const isAdminOrRecep = localStorage.getItem('role');
+  //   setRole(isAdminOrRecep) 
+  // },[])
 
   const renderContent = () => {
     switch (activeTab) {

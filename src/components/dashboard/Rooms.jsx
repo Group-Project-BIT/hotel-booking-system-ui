@@ -261,13 +261,10 @@ export function RoomTable() {
                                         </td>
                                         <td className="p-4">
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {item.room_maintenance == false ? "Yes": "No"}
+                                                {item.room_maintenance == false ? "No": "Yes"}
                                             </Typography>
                                         </td>
-                                        <td className="p-4 flex gap-2">
-                                            <Button onClick={() => handleEditClick(index)} className="mr-2">Edit</Button>
-                                            <Button onClick={() => handleDeleteClick(index)}>Delete</Button>
-                                        </td>
+                                      
                                     </>
                                 )}
                             </tr>

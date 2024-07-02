@@ -31,16 +31,16 @@ export const POST = async (req) => {
       reservation_type_id: reservationTypeDoc._id,
       room_type_id: roomTypeDoc._id
     });
-    // if (!reservationPriceDoc) {
-    //   return new Response(
-    //     JSON.stringify({
-    //       error: "Price not found for the given reservation type and room type",
-    //     }),
-    //     {
-    //       status: 404,
-    //     }
-    //   );
-    // }
+    if (!reservationPriceDoc) {
+      return new Response(
+        JSON.stringify({
+          error: "Price not found for the given reservation type and room type",
+        }),
+        {
+          status: 404,
+        }
+      );
+    }
     
     return new Response(JSON.stringify({price: reservationPriceDoc.price}), {
       status: 200,

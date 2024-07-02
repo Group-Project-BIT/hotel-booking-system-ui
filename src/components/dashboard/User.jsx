@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MagnifyingGlassIcon
 } from "@heroicons/react/24/outline";
@@ -63,14 +63,24 @@ const INITIAL_TABLE_ROWS = [
 ];
 
 export function ReceptionistsTable() {
-  const [rows, setRows] = useState(INITIAL_TABLE_ROWS);
+  const [rows, setRows] = useState();
   const [editingIndex, setEditingIndex] = useState(null);
-  const [editFormData, setEditFormData] = useState({
-    recep_name: '',
-    recep_email: '',
-    online: ''
-  });
+  const [editFormData, setEditFormData] = useState();
+  useEffect(()=>{
+    fetchReceptionist();
+  },[])
+const fetchReceptionist =async()=>{
+  try {
+    const response = await fetch("/api/users", {
+      method: "GET",
+    });
 
+    const data = await response.json();
+    setRows(data);
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
+  }
+}
   const handleEditClick = (index) => {
     setEditingIndex(index);
     setEditFormData(rows[index]);
@@ -218,11 +228,11 @@ export function ReceptionistsTable() {
             </tr>
           </thead>
           <tbody>
-            {rows.map(({ recep_name, recep_email, online }, index) => (
+            {rows && rows.map((row, index) => (
               <tr key={index} className="even:bg-blue-gray-50/50">
                 {editingIndex === index ? (
                   <>
-                    <td className="p-4">
+                    {/* <td className="p-4">
                       <Input
                         type="text"
                         name="recepName"
@@ -239,7 +249,7 @@ export function ReceptionistsTable() {
                         onChange={handleFormChange}
                         className="font-normal"
                       />
-                    </td>
+                    </td> */}
                     <td className="p-4">
                       <Input
                         type="text"
@@ -249,32 +259,32 @@ export function ReceptionistsTable() {
                         className="font-normal"
                       />
                     </td>
-                    <td className="p-4">
+                    {/* <td className="p-4">
                       <Button onClick={handleFormSubmit} className="mr-2">Save</Button>
                       <Button onClick={() => setEditingIndex(null)}>Cancel</Button>
-                    </td>
+                    </td> */}
                   </>
                 ) : (
                   <>
                     <td className="p-4">
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {recep_name}
+                        {row.username}
                       </Typography>
                     </td>
                     <td className="p-2">
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {recep_email}
+                        {row.email}
                       </Typography>
                     </td>
                     <td className="p-4">
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {online}
+                        online
                       </Typography>
                     </td>
-                    <td className="p-4 flex gap-2">
+                    {/* <td className="p-4 flex gap-2">
                       <Button onClick={() => handleEditClick(index)} className="mr-2">Edit</Button>
                       <Button onClick={() => handleDeleteClick(index)}>Delete</Button>
-                    </td>
+                    </td> */}
                   </>
                 )}
               </tr>

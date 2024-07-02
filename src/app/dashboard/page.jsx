@@ -23,13 +23,15 @@ export default function page() {
             { loading?<><div>
                 <StickyNavbar />
             </div>
-            <div className='ustify-center'>
+            <div className='justify-center'>
                 <App />
             </div>
             <div>
                 <FooterWithSocialLinks/>
-            </div></>:
-            <ClipLoader loading={loading}/>}
+            </div></>:<div className='justify-center flex h-screen items-center'>
+            <ClipLoader  loading={loading}/>
+            </div>
+            }
         </div>
   )
 }
