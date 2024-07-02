@@ -76,7 +76,7 @@ const ReservationContainer = () => {
         setGuest({ ...guest, [name]: value });
     };
 
-    const handleConfirmClick = async(event) => {
+    const handleConfirmClick = async (event) => {
         event.preventDefault();
         try {
             const isoCheckInDate = new Date(checkIn);
@@ -112,6 +112,7 @@ const ReservationContainer = () => {
 
             const data = await response.json();
             router.push("/");
+            alert("Your Reservation has Succesfully done!")
             setIsLoading(false)
         } catch (error) {
             console.error("Error fetching room types:", error);
@@ -148,7 +149,7 @@ const ReservationContainer = () => {
                 setAlertType("success");
                 setIsRoomAvailable(true);
             } else {
-                setAlertMessage("Room is not available.");
+                setAlertMessage("Error checking availability.");
                 setAlertType("error");
                 setIsRoomAvailable(false);
             }
@@ -270,7 +271,7 @@ const ReservationContainer = () => {
                             {alertMessage}
                         </Alert>
                     )}
-                    <div className="p-4 rounded mb-4">
+                    <div className="p-4 rounded flex flex-col gap-4 mb-4">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">Reservation Type</h2>
                         <div className="flex gap-10">
                             <Select
@@ -287,12 +288,12 @@ const ReservationContainer = () => {
                     </div>
                     <div className="p-4 rounded flex flex-col gap-4 mb-4">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">Your Information</h2>
-                        <Input label="First name" id="f_name" type="text" name="f_name" value={guest.f_name} onChange={handleInputChange} autoComplete="f_name" />
-                        <Input label="Last Name" id="l_name" type="text" name="l_name" value={guest.l_name} onChange={handleInputChange} autoComplete="l_name" />
-                        <Input label="Email" id="email" name="email" type="email" value={guest.email} onChange={handleInputChange} autoComplete="email" />
-                        <Input label="Phone Number" id="phone" name="phone" type="text" value={guest.phone} onChange={handleInputChange} autoComplete="phone" />
-                        <Input label="Address" type="text" name="address" id="address" value={guest.address} onChange={handleInputChange} autoComplete="address" />
-                        <Input label="NIC Number" type="text" name="nic_number" id="nic_number" value={guest.nic_number} onChange={handleInputChange} autoComplete="nic_number" />
+                        <Input label="First name" id="f_name" type="text" name="f_name" value={guest.f_name} onChange={handleInputChange} autoComplete="f_name" required />
+                        <Input label="Last Name" id="l_name" type="text" name="l_name" value={guest.l_name} onChange={handleInputChange} autoComplete="l_name" required />
+                        <Input label="Email" id="email" name="email" type="email" value={guest.email} onChange={handleInputChange} autoComplete="email" required />
+                        <Input label="Phone Number" id="phone" name="phone" type="text" value={guest.phone} onChange={handleInputChange} autoComplete="phone" required />
+                        <Input label="Address" type="text" name="address" id="address" value={guest.address} onChange={handleInputChange} autoComplete="address" required />
+                        <Input label="NIC Number" type="text" name="nic_number" id="nic_number" value={guest.nic_number} onChange={handleInputChange} autoComplete="nic_number" required />
                     </div>
                     <div className="p-4">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">Payment Information</h2>
