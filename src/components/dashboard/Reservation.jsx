@@ -20,20 +20,6 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 
-const TABS = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Confirmed",
-    value: "confirmed",
-  },
-  {
-    label: "Canceled",
-    value: "canceled",
-  },
-];
 const TABLE_HEAD = [
   "Guest",
   "Room Type",
@@ -44,28 +30,11 @@ const TABLE_HEAD = [
 ];
 
 const INITIAL_TABLE_ROWS = [
-  {
-    nic_number: "200030200300",
-    f_name: "John",
-    type_name: "Deluxe",
-    typename: "Full Board",
-    check_in: "29.06.2024",
-    check_out: "30.06.2024",
-    status: true,
-  },
-  {
-    nic_number: "200050601001",
-    f_name: "Rathnayake",
-    type_name: "Deluxe",
-    typename: "Full Board",
-    check_in: "24.06.2024",
-    check_out: "26.06.2024",
-    status: false,
-  },
+
   {
     nic_number: "200050601001",
     f_name: "Rayan",
-    type_name: "Deluxe",
+    type_name: "Deluxe Room",
     typename: "Full Board",
     check_in: "24.06.2024",
     check_out: "26.06.2024",
@@ -101,19 +70,8 @@ export function ReservationTable() {
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Tabs value="all" className="w-full md:w-max">
             <TabsHeader>
-              {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
             </TabsHeader>
           </Tabs>
-          <div className="w-full md:w-72">
-            <Input
-              label="Search"
-              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-            />
-          </div>
         </div>
       </CardHeader>
       <CardBody className="overflow-scroll px-0">
@@ -270,16 +228,7 @@ export function ReservationTable() {
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
         </Typography>
-        <div className="flex gap-2">
-          <Button variant="outlined" size="sm">
-            Previous
-          </Button>
-          <Button variant="outlined" size="sm">
-            Next
-          </Button>
-        </div>
       </CardFooter>
     </Card>
   );

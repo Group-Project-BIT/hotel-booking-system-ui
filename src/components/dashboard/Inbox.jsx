@@ -2,72 +2,48 @@ import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
-    Input,
     Typography,
     Button,
     CardBody,
-    Chip,
     CardFooter,
-    Tabs,
-    TabsHeader,
-    Tab,
-    Avatar,
-    IconButton,
-    Tooltip,
+    Popover,
+    PopoverHandler,
+    PopoverContent,
+    Textarea
 } from "@material-tailwind/react";
-
-const TABS = [
-    {
-        label: "All",
-        value: "all",
-    },
-    {
-        label: "Monitored",
-        value: "monitored",
-    },
-    {
-        label: "Unmonitored",
-        value: "unmonitored",
-    },
-];
+import { useState } from "react";
 
 const TABLE_HEAD = ["Member", "Message", "Date", ""];
 
 const TABLE_ROWS = [
     {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
         name: "John Michael",
         email: "john@creative-tim.com",
         message: "Room Is not clear",
         date: "23/04/18",
     },
     {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
         name: "Alexa Liras",
         email: "alexa@creative-tim.com",
         message: "Room Is not clear",
         date: "23/04/18",
     },
     {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
         name: "Laurent Perrier",
         email: "laurent@creative-tim.com",
         message: "Room Is not clear",
         date: "19/09/17",
     },
     {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
         name: "Michael Levi",
         email: "michael@creative-tim.com",
         message: "Room Is not clear",
         date: "24/12/08",
     },
     {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
         name: "Richard Gran",
         email: "richard@creative-tim.com",
         message: "Room Is not clear",
@@ -76,6 +52,7 @@ const TABLE_ROWS = [
 ];
 
 export function InquiryTable() {
+    const [open, setOpen] = useState(true);
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -119,7 +96,7 @@ export function InquiryTable() {
                     </thead>
                     <tbody>
                         {TABLE_ROWS.map(
-                            ({ img, name, email, message, date }, index) => {
+                            ({ name, email, message, date }, index) => {
                                 const isLast = index === TABLE_ROWS.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -129,7 +106,6 @@ export function InquiryTable() {
                                     <tr key={name}>
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
-                                                <Avatar src={img} alt={name} size="sm" />
                                                 <div className="flex flex-col">
                                                     <Typography
                                                         variant="small"
@@ -167,8 +143,27 @@ export function InquiryTable() {
                                             </Typography>
                                         </td>
                                         <td className={classes}>
-
-                                            <Button>Mark as Read</Button>
+                                            <Popover placement="bottom">
+                                                <PopoverHandler>
+                                                    <Button open={open} >Reply Email</Button>
+                                                </PopoverHandler>
+                                                <PopoverContent>
+                                                    <div className="relative w-[32rem]">
+                                                        <Textarea variant="static" placeholder="Reply Message..." rows={8} />
+                                                        <div className="flex w-full justify-between py-1.5">
+                                                            <div></div>
+                                                            <div className="flex gap-2">
+                                                                <Button onClick={() => setOpen(false)} size="sm" variant="text" className="rounded-md">
+                                                                    Cancel
+                                                                </Button>
+                                                                <Button onClick={() => sendReply(message)} size="sm" className="rounded-md">
+                                                                    Send
+                                                                </Button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </PopoverContent>
+                                            </Popover>
                                         </td>
                                     </tr>
                                 );
@@ -179,16 +174,7 @@ export function InquiryTable() {
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of 10
                 </Typography>
-                <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
-                        Previous
-                    </Button>
-                    <Button variant="outlined" size="sm">
-                        Next
-                    </Button>
-                </div>
             </CardFooter>
         </Card>
     );

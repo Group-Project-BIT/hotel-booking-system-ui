@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Input,
@@ -7,7 +7,40 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
 const SignInFrom = () => {
+  const router = useRouter();
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const handleSignIn = async() =>{
+    try {
+      // setIsLoading(true)
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+         email: email,
+         password: password
+          
+        }),
+      });
+
+      const data = await response.json();
+      if (data.isAdmin) {
+        localStorage.setItem('isAdmin', 'true');
+        router.push('/dashboard'); // Redirect to dashboard page
+        alert("Login Successful!")
+      } else {
+        alert('Invalid email or password');
+      }
+      // setIsLoading(false)
+    } catch (error) {
+      console.error("Error fetching room types:", error);
+      alert(error);
+    }
+  }
   return (
       <Card color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
@@ -22,6 +55,8 @@ const SignInFrom = () => {
               Email
             </Typography>
             <Input
+            value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               size="lg"
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -34,6 +69,8 @@ const SignInFrom = () => {
             </Typography>
             <Input
               type="password"
+              value={password}
+              onChange={(e)=> setPassword(e.target.value)}
               size="lg"
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -42,7 +79,7 @@ const SignInFrom = () => {
               }}
             />
           </div>
-          <Button className="mt-6" fullWidth>
+          <Button className="mt-6" fullWidth onClick={handleSignIn}>
             sign in
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">

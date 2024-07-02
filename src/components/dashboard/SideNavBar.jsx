@@ -44,7 +44,7 @@ export function SidebarWithContentSeparator({ setActiveTab }) {
           </ListItemPrefix>
           Reservations
           <ListItemSuffix>
-            <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+            <Chip value="1" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
           </ListItemSuffix>
         </ListItem>
         <ListItem onClick={() => setActiveTab('Inbox')}>
@@ -53,7 +53,7 @@ export function SidebarWithContentSeparator({ setActiveTab }) {
           </ListItemPrefix>
           Inbox
           <ListItemSuffix>
-            <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+            <Chip value="0" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
           </ListItemSuffix>
         </ListItem>
         <ListItem onClick={() => setActiveTab('Transactions')}>
@@ -62,7 +62,7 @@ export function SidebarWithContentSeparator({ setActiveTab }) {
           </ListItemPrefix>
           Transactions
           <ListItemSuffix>
-            <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+            <Chip value="0" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
           </ListItemSuffix>
         </ListItem>
         <hr className="my-2 border-blue-gray-50" />
