@@ -6,8 +6,8 @@ import { BookingCard } from "./Card";
 import { FooterWithSocialLinks } from "./Footer";
 import EnquirySection from "./Enquiry";
 import { useRouter } from "next/navigation";
+import ChatBot from "./ChatBot"; // Import the ChatBot component
 import { ClipLoader } from "react-spinners";
-
 const Testimonials = () => {
   const testimonials = [
     {
@@ -67,6 +67,7 @@ const HomePage = () => {
   useEffect(() => {
     fetchRoomTypes();
   }, []);
+
   const fetchRoomTypes = async () => {
     try {
       setLoading(true)
@@ -82,7 +83,6 @@ const HomePage = () => {
       setLoading(false)
     }
   };
-
 
   return (
     <div>
@@ -125,7 +125,7 @@ const HomePage = () => {
           )}</>: <ClipLoader loading={loading}/>}
         </div>
         <div className="mt-6">
-          <Button color="blue" onClick={()=>router.push("/reservations")}>Book Now</Button>
+          <Button color="blue" onClick={() => router.push("/reservations")}>Book Now</Button>
         </div>
       </div>
 
@@ -140,6 +140,7 @@ const HomePage = () => {
       </div>
 
       <FooterWithSocialLinks />
+      <ChatBot /> {/* Add the ChatBot component here */}
     </div>
   );
 };
