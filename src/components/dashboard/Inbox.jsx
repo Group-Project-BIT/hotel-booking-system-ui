@@ -14,45 +14,52 @@ import {
     PopoverContent,
     Textarea
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TABLE_HEAD = ["Member", "Message", "Date", ""];
 
-const TABLE_ROWS = [
-    {
-        name: "John Michael",
-        email: "john@creative-tim.com",
-        message: "Room Is not clear",
-        date: "23/04/18",
-    },
-    {
-        name: "Alexa Liras",
-        email: "alexa@creative-tim.com",
-        message: "Room Is not clear",
-        date: "23/04/18",
-    },
-    {
-        name: "Laurent Perrier",
-        email: "laurent@creative-tim.com",
-        message: "Room Is not clear",
-        date: "19/09/17",
-    },
-    {
-        name: "Michael Levi",
-        email: "michael@creative-tim.com",
-        message: "Room Is not clear",
-        date: "24/12/08",
-    },
-    {
-        name: "Richard Gran",
-        email: "richard@creative-tim.com",
-        message: "Room Is not clear",
-        date: "04/10/21",
-    },
-];
+
 
 export function InquiryTable() {
     const [open, setOpen] = useState(true);
+    const [enquiry, setEnquiry] = useState();
+    const [replyMsg, setReplyMsg] = useState();
+    const [loading, setIsLoading] = useState()
+    useEffect(()=>{
+        fetchEnquiries();
+    },[])
+    const fetchEnquiries =async()=>{
+        try {
+            const response = await fetch("/api/emails", {
+              method: "GET",
+            });
+      
+            const data = await response.json();
+            setEnquiry(data);
+          } catch (error) {
+            console.error("Error fetching room types:", error);
+          }
+    }
+    const handleSendReply=async(username, email)=>{
+        try {
+            setIsLoading(true)
+            const response = await fetch("/api/replyEmail", {
+              method: "POST",
+              body: JSON.stringify({
+                email: email,
+                message: replyMsg,
+                username: username
+              }),
+            });
+      
+            const data = await response.json();
+            alert("Reply successfully sent!")
+            setIsLoading(false)
+          } catch (error) {
+            console.error("Error replyEmail:", error);
+            setIsLoading(false)
+          }
+    }
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -95,15 +102,15 @@ export function InquiryTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(
-                            ({ name, email, message, date }, index) => {
-                                const isLast = index === TABLE_ROWS.length - 1;
+                        {enquiry && enquiry.map(
+                            (item, index) => {
+                                const isLast = index === enquiry.length - 1;
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50";
 
                                 return (
-                                    <tr key={name}>
+                                    <tr key={index}>
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
                                                 <div className="flex flex-col">
@@ -112,14 +119,14 @@ export function InquiryTable() {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        {name}
+                                                        {item.username}
                                                     </Typography>
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
                                                         className="font-normal opacity-70"
                                                     >
-                                                        {email}
+                                                        {item.email}
                                                     </Typography>
                                                 </div>
                                             </div>
@@ -130,7 +137,7 @@ export function InquiryTable() {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {message}
+                                                {item.message}
                                             </Typography>
                                         </td>
                                         <td className={classes}>
@@ -139,7 +146,7 @@ export function InquiryTable() {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {date}
+                                                {item.createdDate}
                                             </Typography>
                                         </td>
                                         <td className={classes}>
@@ -149,14 +156,14 @@ export function InquiryTable() {
                                                 </PopoverHandler>
                                                 <PopoverContent>
                                                     <div className="relative w-[32rem]">
-                                                        <Textarea variant="static" placeholder="Reply Message..." rows={8} />
+                                                        <Textarea variant="static" placeholder="Reply Message..." rows={8} value={replyMsg} onChange={(e)=>setReplyMsg(e.target.value)}/>
                                                         <div className="flex w-full justify-between py-1.5">
                                                             <div></div>
                                                             <div className="flex gap-2">
                                                                 <Button onClick={() => setOpen(false)} size="sm" variant="text" className="rounded-md">
                                                                     Cancel
                                                                 </Button>
-                                                                <Button onClick={() => sendReply(message)} size="sm" className="rounded-md">
+                                                                <Button loading={loading} onClick={() => handleSendReply(item.username, item.email)} size="sm" className="rounded-md">
                                                                     Send
                                                                 </Button>
                                                             </div>

@@ -1,6 +1,7 @@
 import connectDb from "@/app/server/config/configDb";
 import reservationModel from "@/app/server/model/reservationModel";
 import reservation_Type from "@/app/server/model/reservationType";
+import guestModel from "@/app/server/model/guestModel";
 
 export const GET = async () => {
   await connectDb();

@@ -6,6 +6,7 @@ import { BookingCard } from "./Card";
 import { FooterWithSocialLinks } from "./Footer";
 import EnquirySection from "./Enquiry";
 import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
 const Testimonials = () => {
   const testimonials = [
@@ -61,20 +62,24 @@ const Testimonials = () => {
 const HomePage = () => {
   const [isCardVisible, setIsCardVisible] = useState(true);
   const [roomTypes, setRoomTypes] = useState([]);
+  const [loading, setLoading] = useState()
   const router = useRouter()
   useEffect(() => {
     fetchRoomTypes();
   }, []);
   const fetchRoomTypes = async () => {
     try {
+      setLoading(true)
       const response = await fetch("/api/roomTypes", {
         method: "GET",
       });
 
       const data = await response.json();
       setRoomTypes(data);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching room types:", error);
+      setLoading(false)
     }
   };
 
@@ -101,7 +106,7 @@ const HomePage = () => {
 
       <div className="mt-10 mb-10 flex flex-col items-center">
         <div className="flex justify-center space-x-4">
-          {roomTypes.length > 0 ? (
+          {!loading ? <>{roomTypes.length > 0 ? (
             roomTypes?.map((roomtype, index) => (
               <BookingCard
                 key={index}
@@ -116,8 +121,8 @@ const HomePage = () => {
               />
             ))
           ) : (
-            <p>No room types available</p>
-          )}
+            <></>
+          )}</>: <ClipLoader loading={loading}/>}
         </div>
         <div className="mt-6">
           <Button color="blue" onClick={()=>router.push("/reservations")}>Book Now</Button>

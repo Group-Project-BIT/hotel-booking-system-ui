@@ -1,5 +1,5 @@
 import { genSalt, hash as _hash } from 'bcrypt';
-const password = 'admin123'; // Replace with the password you want to hash
+const password = 'recep2'; // Replace with the password you want to hash
 
 genSalt(10, (err, salt) => {
   if (err) throw err;

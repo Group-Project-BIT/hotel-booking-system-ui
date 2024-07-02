@@ -18,40 +18,41 @@ import {
   PopoverHandler,
   PopoverContent
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TABLE_HEAD = [
   "Guest",
-  "Room Type",
   "Status",
-  "Reservation Type",
   "Check-In",
   "Check-Out",
 ];
 
-const INITIAL_TABLE_ROWS = [
-
-  {
-    nic_number: "200050601001",
-    f_name: "Rayan",
-    type_name: "Deluxe Room",
-    typename: "Full Board",
-    check_in: "24.06.2024",
-    check_out: "26.06.2024",
-    status: true,
-  },
-];
 
 export function ReservationTable() {
-  const [tableRows, setTableRows] = useState(INITIAL_TABLE_ROWS);
+  const [tableRows, setTableRows] = useState([]);
+  useEffect(()=>{
+    fetchReservations();
+  },[])
 
   const handleCancel = (nic_number) => {
     setTableRows((prevRows) =>
       prevRows.map((row) =>
-        row.nic_number === nic_number ? { ...row, status: false } : row
+        row.guest_id?.nic_number === nic_number ? { ...row, status: false } : row
       )
     );
   };
+  const fetchReservations =async()=>{
+    try {
+      const response = await fetch("/api/reservations", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      setTableRows(data);
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+    }
+  }
 
   return (
     <Card className="h-full w-full">
@@ -98,9 +99,9 @@ export function ReservationTable() {
             </tr>
           </thead>
           <tbody>
-            {tableRows.map(
+            {tableRows?.map(
               (
-                { f_name, nic_number, type_name, typename, check_in, check_out, status },
+                reservation,
                 index
               ) => {
                 const isLast = index === tableRows.length - 1;
@@ -109,7 +110,7 @@ export function ReservationTable() {
                   : "p-4 border-b border-blue-gray-50";
 
                 return (
-                  <tr key={nic_number}>
+                  <tr key={index}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
                         <div className="flex flex-col">
@@ -118,19 +119,19 @@ export function ReservationTable() {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {f_name}
+                            {reservation.guest_id?.first_name}
                           </Typography>
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal opacity-70"
                           >
-                            {nic_number}
+                            {reservation.guest_id?.nic_number}
                           </Typography>
                         </div>
                       </div>
                     </td>
-                    <td className={classes}>
+                    {/* <td className={classes}>
                       <div className="flex flex-col">
                         <Typography
                           variant="small"
@@ -140,18 +141,18 @@ export function ReservationTable() {
                           {type_name}
                         </Typography>
                       </div>
-                    </td>
+                    </td> */}
                     <td className={classes}>
                       <div className="w-max">
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={status ? "confirmed" : "canceled"}
-                          color={status ? "green" : "blue-gray"}
+                          value={reservation.status ? "confirmed" : "canceled"}
+                          color={reservation.status ? "green" : "blue-gray"}
                         />
                       </div>
                     </td>
-                    <td className={classes}>
+                    {/* <td className={classes}>
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -159,14 +160,14 @@ export function ReservationTable() {
                       >
                         {typename}
                       </Typography>
-                    </td>
+                    </td> */}
                     <td className={classes}>
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {check_in}
+                        {reservation.check_in}
                       </Typography>
                     </td>
                     <td className={classes}>
@@ -175,13 +176,13 @@ export function ReservationTable() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {check_out}
+                        {reservation.check_out}
                       </Typography>
                     </td>
                     <td className={classes}>
                       <Popover placement="left">
                         <PopoverHandler>
-                          <Button disabled={!status} >Cancel</Button>
+                          <Button disabled={!reservation.status} >Cancel</Button>
                         </PopoverHandler>
                         <PopoverContent className="w-96">
                           <svg
@@ -209,7 +210,7 @@ export function ReservationTable() {
                             Are you sure to cancel this reservation?
                           </Typography>
                           <div className="flex gap-2">
-                            <Button onClick={() => handleCancel(nic_number)} variant="gradient" className="flex-shrink-0">
+                            <Button onClick={() => handleCancel(reservation.guest_id?.nic_number)} variant="gradient" className="flex-shrink-0">
                               Yes
                             </Button>
                             <Button variant="gradient" className="flex-shrink-0">

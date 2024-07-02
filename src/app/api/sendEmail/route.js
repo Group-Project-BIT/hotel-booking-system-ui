@@ -3,7 +3,7 @@ import connectDb from "@/app/server/config/configDb";
 import enquiryModel from '@/app/server/model/enquiryModel';
 export const POST = async (req) => {
     await connectDb()
-    const { email, message } = await req.json();
+    const { email, message, username } = await req.json();
 
     // Create a transporter object using SMTP transport
     let transporter = nodemailer.createTransport({
@@ -19,14 +19,16 @@ export const POST = async (req) => {
       await transporter.sendMail({
         from: email, // sender address
         to: process.env.COMPANY_EMAIL, // company email address
-        subject: email,
+        subject: `An enquiry from ${email}`,
         text: message,
         html: `<p>${message}</p>`,
       });
 
       const newEnquiry = new enquiryModel({
         email: email,
-        message: message
+        message: message,
+        username: username,
+        createdDate: new Date() 
       })
       await newEnquiry.save()
 

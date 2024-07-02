@@ -24,7 +24,7 @@ export const POST = async (req) => {
   }
 
   // If credentials are correct, store a flag in local storage
-  return new Response(JSON.stringify({ message: 'Login successful', isAdmin: true }), {
+  return new Response(JSON.stringify({ message: 'Login successful', isAdmin: true, role: admin.role }), {
     status: 200,
   });
 

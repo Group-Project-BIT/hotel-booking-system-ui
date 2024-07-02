@@ -29,9 +29,9 @@ const roomPrices = {
 };
 
 const reservationPrices = {
-    "Full Board": 80,
-    "Half Board": 50,
-    "Bed and Breakfast": 40,
+    "full_board": 80,
+    "half_board": 50,
+    "bed_and_breakfirst": 40,
 };
 
 function Icon() {
@@ -55,7 +55,7 @@ const ReservationContainer = () => {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [roomType, setRoomType] = useState("Deluxe Room");
-    const [reservationType, setReservationType] = useState("Bed and Breakfast");
+    const [reservationType, setReservationType] = useState("bed_and_breakfirst");
     const [guest, setGuest] = useState({ f_name: '', l_name: '', email: '', phone: '', address: '', nic_number: '' });
     const [confirmations, setConfirmations] = useState({ privacy: false, bookingConditions: false });
     const [alertMessage, setAlertMessage] = useState("");
@@ -76,24 +76,29 @@ const ReservationContainer = () => {
         setGuest({ ...guest, [name]: value });
     };
 
-    const handleConfirmClick = async () => {
-        const reservationData = {
-            roomType,
-            checkIn,
-            checkOut,
-            reservationType,
-            guest,
-            confirmations
-        };
-        console.log(reservationData);
+    const handleConfirmClick = async(event) => {
+        event.preventDefault();
         try {
+            const isoCheckInDate = new Date(checkIn);
+            const isoCheckOutDate = new Date(checkOut);
+            const checkInISO = isoCheckInDate.toISOString().split('T')[0].replace(/-/g, ' ');
+            const checkOutISO = isoCheckOutDate.toISOString().split('T')[0].replace(/-/g, ' ');
+            const reservationData = {
+                roomType,
+                checkInISO,
+                checkOutISO,
+                reservationType,
+                guest,
+                confirmations
+            };
+            console.log(reservationData);
             setIsLoading(true)
             const response = await fetch("/api/room/book", {
                 method: "POST",
                 body: JSON.stringify({
                     room_type_name: roomType,
-                    check_in: checkIn,
-                    check_out: checkOut,
+                    check_in: checkInISO,
+                    check_out: checkOutISO,
                     first_name: guest.f_name,
                     last_name: guest.l_name,
                     email: guest.email,
@@ -117,8 +122,8 @@ const ReservationContainer = () => {
         const isoCheckInDate = new Date(checkIn);
         const isoCheckOutDate = new Date(checkOut);
 
-        const checkInISO = isoCheckInDate.toISOString();
-        const checkOutISO = isoCheckOutDate.toISOString();
+        const checkInISO = isoCheckInDate.toISOString().split('T')[0].replace(/-/g, ' ');
+        const checkOutISO = isoCheckOutDate.toISOString().split('T')[0].replace(/-/g, ' ');
 
         const availabilityCheckingData = {
             roomType,
